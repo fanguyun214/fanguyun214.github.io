@@ -1,0 +1,395 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>支付宝支付接入 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              支付宝支付接入
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-03-02
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/kOO3Y9DvW/" class="post-tag">
+                  # 支付宝支付
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/cqxfWrXpvL/" class="post-tag">
+                  # Node
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/dPTLxySfF6/" class="post-tag">
+                  # Alipay
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/zhi-fu-bao-zhi-fu-jie-ru.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>支付宝开放平台，致力于为开发者提供支付、理财、信用、口碑开店、安全、营销、社交等各类能力及行业解决方案。</p>
+<!-- more -->
+<h4 id="1-支付宝应用接入流程">1、支付宝应用接入流程</h4>
+<table>
+<thead>
+<tr>
+<th>流程</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1、创建应用</td>
+<td><a href="https://docs.open.alipay.com/200/105894/">应用介绍</a> <a href="https://docs.open.alipay.com/200/105310/">创建应用</a> 应用安全开发指南 设计规范</td>
+</tr>
+<tr>
+<td>2、开始开发</td>
+<td>了解产品 快速接入 更多帮助与支持</td>
+</tr>
+<tr>
+<td>3、上线使用</td>
+<td><a href="https://docs.open.alipay.com/200/golive/">上线应用</a> 使用应用 <a href="https://docs.open.alipay.com/200/105314/">签约功能</a> 发布到服务市场</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-应用简介">2、应用简介</h4>
+<p>通过创建应用的方式接入蚂蚁各项产品（如当面付、开店、发券、服务窗、余利宝等）接口并进行开发。<br>
+目前开放平台的应用按使用对象分为两类：自研型应用 和 第三方应用（商户服务型应用）:</p>
+<table>
+<thead>
+<tr>
+<th>应用类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自研型应用</td>
+<td>使用开放的功能，为自己或自己公司开发应用。自研型应用分为网页/移动，小程序，生活号。</td>
+</tr>
+<tr>
+<td>第三方应用</td>
+<td>适用于服务商，为商户开发应用，拓展商户使用</td>
+</tr>
+</tbody>
+</table>
+<p>如果您的应用为第三方应用（即供商家使用），则需要商家对该应用进行授权，详细步骤可以参考 <a href="https://docs.alipay.com/isv/10467/xldcyq">第三方应用授权</a>。</p>
+<pre><code>创建应用 -&gt; 应用配置 -&gt; 上线应用 -&gt; 签约功能（如手机网站支付，APP支付等）-&gt; 开发接入已签约功能
+</code></pre>
+<h5 id="-开发者使用支付宝账号登录开放平台需实名认证的支付宝账号根据实际需求创建应用如支付应用">- 开发者使用支付宝账号<a href="https://auth.alipay.com/login/index.htm?goto=https%3A%2F%2Fopenhome.alipay.com%2Fplatform%2FmanageApp.htm">登录开放平台</a>（需实名认证的支付宝账号），根据实际需求创建应用（如“支付应用”）。</h5>
+<p>输入名称，上传应用图标，选择应用功能（如手机网站支付，APP支付等），<a href="https://docs.open.alipay.com/291/105971">下载签名工具</a>生成生成商户应用私钥和商户应用公钥，回到开放平台的应用完善页面，点击设置应用公钥，接收验证码，输入上一步生成的商户应用公钥，点击确定。然后会生成对应的支付宝公钥，商户应用公钥和支付宝公钥要明确区分开。<br>
+<strong>开发代码中要使用到 支付宝公钥  和 商户应用私钥</strong><br>
+提交审核，一天之后，审核完成，显示应用上线。签约选择的应用功能，开始代码开发。</p>
+<h4 id="3-手机网站支付接入h5网站">3、<a href="https://docs.open.alipay.com/203/105288/">手机网站支付接入(H5网站)</a></h4>
+<h5 id="-31-业务场景">- 3.1、业务场景</h5>
+<p><strong>移动网页应用无需集成SDK也可以唤起支付宝客户端支付。</strong><br>
+在网页应用中调用支付宝提供的网页支付接口，接口会调起支付宝客户端内的支付模块，此时会从商家网页应用跳转到支付宝客户端中并开始支付；支付完成后会跳转回商家网页应用内，最后商家展示支付结果。</p>
+<h5 id="-32-接入条件">- 3.2、接入条件</h5>
+<ul>
+<li>申请前必须拥有经过实名认证的支付宝账户；</li>
+<li>企业或个体工商户可申请；</li>
+<li>需提供真实有效的营业执照，且支付宝账户名称需与营业执照主体一致；</li>
+<li>网站能正常访问且页面显示完整，网站需要明确经营内容且有完整的商品信息；</li>
+<li>网站必须通过ICP备案。如为个体工商户，网站备案主体需要与支付宝账户主体名称一致；</li>
+<li>如为个体工商户，则团购不开放，且古玩、珠宝等奢侈品、投资类行业无法申请本产品。</li>
+<li>费率按单笔计算；一般行业费率：0.6%；</li>
+<li>特殊行业费率：1.2%，特殊行业范围包括：手机、通讯设备销售；家用电器；数码产品及配件；休闲游戏；网络游戏点卡、渠道代理；游戏系统商；网游周边服务、交易平台；网游运营商（含网页游戏）</li>
+</ul>
+<h5 id="-33-开发前准备快速接入">- 3.3 <a href="https://docs.open.alipay.com/203/107084/">开发前准备</a>&amp;<a href="https://docs.open.alipay.com/203/105285/">快速接入</a></h5>
+<p>1、创建应用并获取APPID</p>
+<p>登录蚂蚁金服开放平台（<a href="open.alipay.com">open.alipay.com</a>），登记个人应用后，审核通过将会得到应用的唯一标识（APPID）。</p>
+<p>2、配置密钥</p>
+<p>开发者调用接口前需要先生成RSA密钥，RSA密钥包含应用私钥(APP_PRIVATE_KEY)、应用公钥(APP_PUBLIC_KEY）。</p>
+<p>详情见：<a href="https://docs.open.alipay.com/291/105971/">https://docs.open.alipay.com/291/105971/</a></p>
+<p>3、下载服务端SDK</p>
+<p>下载地址：<a href="https://docs.open.alipay.com/203/105910/">https://docs.open.alipay.com/203/105910/</a></p>
+<p>4、接口调用配置</p>
+<p>5、调用接口</p>
+<p>手机网站支付产品包含两类API：</p>
+<p>页面跳转类：需要从前端页面以Form表单的形式发起请求，浏览器会自动跳转至支付宝的相关页面（一般是收银台或签约页面），用户在该页面完成相关业务操作后再回跳到商户指定页面。例如本产品中的手机网站支付接口alipay.trade.wap.pay。</p>
+<p>系统调用类：直接从服务端发起HTTP请求，支付宝会同步返回请求结果。例如本产品中的交易查询等配套API。<br>
+<strong>接口调用流程</strong><br>
+<img src="https://fanguyun214.github.io/post-images/1583145118760.png" alt="" loading="lazy"></p>
+<p>👋👋👋👋</p>
+<h5 id="-34-手机网站支付产品包含的接口和描述如下">- 3.4、手机网站支付产品包含的接口和描述如下：</h5>
+<table>
+<thead>
+<tr>
+<th>接口名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alipay.trade.wap.pay 手机网页支付接口</td>
+<td>通过此接口传入订单参数，同时唤起支付宝手机网页支付页面</td>
+</tr>
+<tr>
+<td>alipay.trade.close 交易关闭接口</td>
+<td>通过此接口关闭此前已创建的交易，关闭后，用户将无法继续付款。仅能关闭创建后未支付的交易。</td>
+</tr>
+<tr>
+<td>alipay.trade.query 交易状态查询接口</td>
+<td>通过此接口查询某笔交易的状态，交易状态：交易创建，等待买家付款；未付款交易超时关闭，或支付完成后全额退款；交易支付成功；交易结束，不可退款。</td>
+</tr>
+<tr>
+<td>alipay.trade.refund 交易退款接口</td>
+<td>通过此接口对单笔交易完成退款操作</td>
+</tr>
+<tr>
+<td>alipay.trade.fastpay.refund.query 退款查询</td>
+<td>查询退款订单的状态</td>
+</tr>
+<tr>
+<td>alipay.data.dataservice.bill.downloadurl.query 账单查询接口</td>
+<td>调用此接口获取账单的下载链接</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://docs.open.alipay.com/api_1/alipay.trade.wap.pay/">手机网页支付接口详细API</a></p>
+<h4 id="4-如何使用沙箱环境做开发调试">4、如何使用沙箱环境做开发调试</h4>
+<p>沙箱环境是开放平台提供给开发者调试接口的环境，具体操作步骤见<a href="https://docs.open.alipay.com/200/105311">沙箱接入指南</a>。<br>
+目前支付宝沙箱环境支持手机网站支付，并且在安装了沙箱支付宝钱包后，可以唤起沙箱支付宝钱包进行支付。<br>
+在没有应用或者应用还未上线及未签约支付功能时，可使用沙箱环境做开发联调，联调完成后，切换回商家应用APPid，商家私钥，商家公钥，支付宝公钥，做线上真实逻辑测试。</p>
+<pre><code>下载支付宝开放平台助手 -&gt; 生成RSA商家应用私钥、公钥 -&gt; 沙箱环境配置生成的应用公钥获取到支付宝公钥 -&gt; AliPAySdk配置秘钥 -&gt; 安装沙箱环境支付宝APP -&gt; 客户端网页调用支付接口 -&gt; 拉起沙箱环境支付宝APP -&gt; 完成支付
+</code></pre>
+<h4 id="5-其他">5、其他</h4>
+<ul>
+<li><a href="https://developers.alipay.com/developmentAccess/developmentAccess.htm">支付宝开发者中心</a></li>
+<li><a href="https://docs.open.alipay.com/203/105288/">手机网站支付文档</a></li>
+<li><a href="https://openhome.alipay.com/platform/appDaily.htm?tab=info">沙箱应用</a></li>
+<li><a href="https://docs.open.alipay.com/54/103419">服务端 SDK</a></li>
+<li><a href="https://docs.open.alipay.com/291/105971">RSA 秘钥</a></li>
+<li><a href="https://docs.open.alipay.com/api_1/alipay.trade.wap.pay">支付接口 API</a></li>
+<li><a href="https://docs.open.alipay.com/200/ug05sr/">账户成员管理</a></li>
+<li><a href="https://docs.open.alipay.com/291/105971">支付宝开放平台开发助手</a></li>
+</ul>
+<h4 id="基于alipaysdk的沙箱环境支付demo">基于AliPaySDK的沙箱环境支付DEMO:</h4>
+<p>Demo Repo: <a href="https://github.com/fanguyun214/alipay-node-demo">https://github.com/fanguyun214/alipay-node-demo</a><br>
+扫码体验（微信环境不能拉起支付宝）：<br>
+<img src="https://fanguyun214.github.io/post-images/1583893453400.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E6%94%AF%E4%BB%98%E5%AE%9D%E5%BA%94%E7%94%A8%E6%8E%A5%E5%85%A5%E6%B5%81%E7%A8%8B">1、支付宝应用接入流程</a></li>
+<li><a href="#2-%E5%BA%94%E7%94%A8%E7%AE%80%E4%BB%8B">2、应用简介</a>
+<ul>
+<li><a href="#-%E5%BC%80%E5%8F%91%E8%80%85%E4%BD%BF%E7%94%A8%E6%94%AF%E4%BB%98%E5%AE%9D%E8%B4%A6%E5%8F%B7%E7%99%BB%E5%BD%95%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E9%9C%80%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81%E7%9A%84%E6%94%AF%E4%BB%98%E5%AE%9D%E8%B4%A6%E5%8F%B7%E6%A0%B9%E6%8D%AE%E5%AE%9E%E9%99%85%E9%9C%80%E6%B1%82%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8%E5%A6%82%E6%94%AF%E4%BB%98%E5%BA%94%E7%94%A8">- 开发者使用支付宝账号登录开放平台（需实名认证的支付宝账号），根据实际需求创建应用（如“支付应用”）。</a></li>
+</ul>
+</li>
+<li><a href="#3-%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E6%8E%A5%E5%85%A5h5%E7%BD%91%E7%AB%99">3、手机网站支付接入(H5网站)</a>
+<ul>
+<li><a href="#-31-%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF">- 3.1、业务场景</a></li>
+<li><a href="#-32-%E6%8E%A5%E5%85%A5%E6%9D%A1%E4%BB%B6">- 3.2、接入条件</a></li>
+<li><a href="#-33-%E5%BC%80%E5%8F%91%E5%89%8D%E5%87%86%E5%A4%87%E5%BF%AB%E9%80%9F%E6%8E%A5%E5%85%A5">- 3.3 开发前准备&amp;快速接入</a></li>
+<li><a href="#-34-%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E4%BA%A7%E5%93%81%E5%8C%85%E5%90%AB%E7%9A%84%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8F%8F%E8%BF%B0%E5%A6%82%E4%B8%8B">- 3.4、手机网站支付产品包含的接口和描述如下：</a></li>
+</ul>
+</li>
+<li><a href="#4-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%B2%99%E7%AE%B1%E7%8E%AF%E5%A2%83%E5%81%9A%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95">4、如何使用沙箱环境做开发调试</a></li>
+<li><a href="#5-%E5%85%B6%E4%BB%96">5、其他</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8Ealipaysdk%E7%9A%84%E6%B2%99%E7%AE%B1%E7%8E%AF%E5%A2%83%E6%94%AF%E4%BB%98demo">基于AliPaySDK的沙箱环境支付DEMO:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/http-ke-hu-duan-huan-cun/">
+              <h3 class="post-title">
+                HTTP客户端缓存
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

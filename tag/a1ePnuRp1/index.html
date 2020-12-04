@@ -1,0 +1,194 @@
+<html>
+  <head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HTTPS | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：# HTTPS
+            </h2> 
+        </div>
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://fanguyun214.github.io/post/charles-an-zhuang-ji-dai-li-pei-zhi/">
+        <h2 class="post-title">Charles安装及代理配置</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2020-05-21
+        </span>
+        <span>
+          3 min read
+        </span>
+        
+          <a href="https://fanguyun214.github.io/tag/a1ePnuRp1/" class="post-tag">
+            # HTTPS
+          </a>
+        
+          <a href="https://fanguyun214.github.io/tag/DFmBaDhcjM/" class="post-tag">
+            # 代理
+          </a>
+        
+          <a href="https://fanguyun214.github.io/tag/MMaQT6dqrh/" class="post-tag">
+            # 抓包
+          </a>
+        
+          <a href="https://fanguyun214.github.io/tag/LJZZCe_xIw/" class="post-tag">
+            # 调试
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>Charles是一款用于HTTP信息抓包工具，可以快速有效的获得HTTP信息，非常利于开发者的网页开发和调试修改等。</p>
+
+      </di>
+    </article>
+  
+</div>
+
+        <div class="pagination-container">
+  
+  
+</div>
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

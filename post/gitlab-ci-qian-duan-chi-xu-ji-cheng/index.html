@@ -1,0 +1,334 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gitlab-CI前端持续集成 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Gitlab-CI前端持续集成
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-07-18
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/qVOQexVL_Q/" class="post-tag">
+                  # 持续集成
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/amI4cgC9h/" class="post-tag">
+                  # Git
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/gitlab-ci-qian-duan-chi-xu-ji-cheng.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>gitlab-ci 全称是 gitlab continuous integration，也就是基于gitlab的持续集成工具。</p>
+<!-- more -->
+<h2 id="1-gitlab-ci-gitlab-ci-runner">1、Gitlab-ci &amp;&amp; Gitlab-ci-runner</h2>
+<p><strong>gitlab-ci</strong></p>
+<p>中心思想是当每一次push到gitlab的时候，都会触发一次脚本执行，然后脚本的内容包括了测试，编译，部署等一系列自定义的内容。高版本的 GitLab 自带了 GitLab CI，所以不需要另外安装。</p>
+<p><strong>GitLab-Runner</strong></p>
+<p>GitLab-Runner 是脚本执行的承载者，GitLab-CI 事先注册好 GitLab-Runner，再 push 代码，对应的 Runner 就会执行你所定义的脚本。</p>
+<p><strong>本地push -&gt; .gitlab-ci.yml配置 -&gt; GitLab-Runner执行脚本 -&gt; 部署开发、测试、生产服务器</strong></p>
+<h2 id="2-安装gitlab-runner">2、安装GitLab-Runner</h2>
+<p>Gitlab Runner安装方式有两种，一种是直接二进制文件安装，一种是基于docker镜像安装。</p>
+<p><strong>二进制文件安装</strong></p>
+<ul>
+<li>下载对应操作系统的二进制包，我这里使用的是mac版本，</li>
+</ul>
+<pre><code>sudo curl --output /usr/local/bin/gitlab-ci-multi-runner https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-ci-multi-runner-darwin-amd64
+</code></pre>
+<ul>
+<li>给 gitlab-ci-multi-runner 设置权限</li>
+</ul>
+<pre><code>sudo chmod +x /usr/local/bin/gitlab-ci-multi-runner
+</code></pre>
+<p>以上是官方安装文档，如果有问题，可以手动到<a href="https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/v1.11.2/index.html">版本下载列表</a>下载对应的版本，然后复制到/usr/local/bin/目录下</p>
+<ul>
+<li>注册runner<br>
+首先，进入到你的 gitlab 项目网页，找到 Settings -&gt; CI/CD -&gt; Runner，然后找到对应的 url 和 token</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://user-gold-cdn.xitu.io/2019/4/17/16a2940147be83f1?w=901&amp;h=557&amp;f=png&amp;s=127905" alt="" loading="lazy"></figure>
+<p>然后在终端输入</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/4/17/16a2941c0497ad6f?w=1071&amp;h=379&amp;f=png&amp;s=157806" alt="" loading="lazy"><br>
+依次是url,token,描述,tag,是否共享,执行方式</p>
+<p>启动Runner，<code>gitlab-ci-multi-runner start</code>，刷新页面</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/4/17/16a2948a0bcf3446?w=494&amp;h=190&amp;f=png&amp;s=17239" alt="" loading="lazy"><br>
+说明注册成功了。</p>
+<p>我们可以通过 gitlab-ci-multi-runner list 查询你注册的runner ，用 gitlab-ci-multi-runner status 查看 runner 服务是否运行中。</p>
+<p><strong>基于Docker安装</strong></p>
+<ul>
+<li>先获取 gitlab-runner 镜像</li>
+</ul>
+<pre><code>sudo docker pull gitlab/gitlab-runner:latest
+</code></pre>
+<ul>
+<li>启动 gitlab-runner container</li>
+</ul>
+<pre><code>sudo docker run -d --name gitlab-runner --restart always \
+  -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  gitlab/gitlab-runner:latest
+</code></pre>
+<ul>
+<li>注册runner</li>
+</ul>
+<pre><code>sudo docker exec -it gitlab-runner gitlab-ci-multi-runner register
+注册方式同上
+</code></pre>
+<h2 id="3-配置gitlab-ciyml">3、配置.gitlab-ci.yml</h2>
+<p>GitLab CI的一切工作，都是由 .gitlab-ci.yml 来配置的。详细文档可以参考<a href="https://docs.gitlab.com/ee/ci/yaml/README.html">这里</a></p>
+<p>在项目根目录下创建 .gitlab-ci.yml 文件</p>
+<pre><code># 设置缓存
+cache:
+  paths:
+    - node_modules/
+    - dist/
+# 定义 stages，用来定义工作阶段，多个 stages 会按顺序进行
+stages:
+  - build
+  - test
+  - deploy
+# before_script 会在每个 stages 执行之前运行
+before_script:
+  - node -v
+  - yarn --version
+  - yarn global add umi
+  - yarn install
+  
+# 测试（对应上面stages）
+test:
+  stage: test
+  script:
+    - echo 'yarn test'
+    - yarn test
+# 构建
+build:
+  stage: build
+  script:
+    - echo 'yarn build'
+    - yarn build
+  when: manual # 手动触发
+# 部署
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - bash scripts/deploy.sh # 部署脚本文件
+  when: manual
+</code></pre>
+<p>配置完成提交Gitpab后，每次push都会触发gitlab-ci。</p>
+<figure data-type="image" tabindex="2"><img src="https://user-gold-cdn.xitu.io/2019/4/17/16a2955cb45a52b4?w=1048&amp;h=243&amp;f=png&amp;s=46518" alt="" loading="lazy"></figure>
+<h2 id="4参考资料">4.参考资料</h2>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/osx.html">gitlab-runner 安装</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html">gitlab ci yaml 配置</a></li>
+<li><a href="https://www.jianshu.com/p/df433633816b">【后端】gitlab之gitlab-ci自动部署</a></li>
+<li><a href="https://juejin.im/post/5d00acd26fb9a07eca69745b">前端基于SSH的自动部署</a></li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-gitlab-ci-gitlab-ci-runner">1、Gitlab-ci &amp;&amp; Gitlab-ci-runner</a></li>
+<li><a href="#2-%E5%AE%89%E8%A3%85gitlab-runner">2、安装GitLab-Runner</a></li>
+<li><a href="#3-%E9%85%8D%E7%BD%AEgitlab-ciyml">3、配置.gitlab-ci.yml</a></li>
+<li><a href="#4%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">4.参考资料</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/qian-duan-ji-yu-ssh-de-zi-dong-bu-shu/">
+              <h3 class="post-title">
+                前端基于SSH的自动部署
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

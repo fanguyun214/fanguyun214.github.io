@@ -1,0 +1,327 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apollo Client - 16.Authentication | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Apollo Client - 16.Authentication
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-07-18
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/AmO1ThlSR/" class="post-tag">
+                  # Apollo Client
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/dW_UwyEf6P/" class="post-tag">
+                  # Graphql
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/apollo-client-16authentication.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>认证、除非您加载的所有数据都是完全公开的，否则您的应用程序应该拥有用户，帐户和权限系统。</p>
+<!-- more -->
+<p>如果不同的用户在您的应用程序中具有不同的权限，那么您需要一种方法来告诉服务器哪个用户与每个请求相关联。</p>
+<p>Apollo客户端使用超灵活的 <a href="/docs/link">Apollo Link</a>，其中包括几个身份验证选项。</p>
+<h2 id="cookie">Cookie</h2>
+<p>如果您的应用程序是基于浏览器的，并且您使用 cookie 进行后端登录和会话管理，则很容易告诉您的网络接口，发送 cookie 到每个请求。 您只需要传递凭证选项。 例如 <code>credentials：'same-origin'</code> 如果你的后端服务器是同一个域，或者如果你的后端是一个不同的域，则为 <code>credentials：'include'</code>。</p>
+<pre><code class="language-js">const link = createHttpLink({
+  uri: '/graphql',
+  credentials: 'same-origin'
+});
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
+});
+</code></pre>
+<p>这个选项简单地传递给 HttpLink 在发送查询时使用的 <a href="https://github.com/github/fetch"><code>fetch</code> implementation</a></p>
+<p>注意：后端还必须允许来自请求来源的凭据。 例如 如果在 node.js 中使用来自 npm 的流行 'cors' 包，则以下设置将与上述 apollo 客户端设置协同工作，</p>
+<pre><code class="language-js">// enable cors
+var corsOptions = {
+  origin: '&lt;insert uri of front-end domain&gt;',
+  credentials: true // &lt;-- REQUIRED backend setting
+};
+app.use(cors(corsOptions));
+</code></pre>
+<h2 id="header">Header</h2>
+<p>使用 HTTP 时识别自己的另一种常用方法是基于 header 发送认证。通过将 Apollo Links 结合在一起，可以轻松地为每个 HTTP 请求添加一个 <code>authorization</code> 标头。 在这个例子中，每次发送请求时我们都会从 <code>localStorage</code> 中提取登录令牌：</p>
+<pre><code class="language-js">import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+const authLink = setContext((_, { headers }) =&gt; {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : &quot;&quot;,
+    }
+  }
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+</code></pre>
+<p>请注意，上面的示例使用了 <code>apollo-client</code> 包中的 <code>ApolloClient</code>。 虽然可以使用 <code>apollo-boost</code> 包中的 <code>ApolloClient</code> 修改 Headers，但由于 <code>apollo-boost</code> 不允许修改它所使用的 <code>HttpLink</code> 实例，所以 Headers 必须作为配置参数传入。 有关详细信息，请参阅 Apollo Boost <a href="../essentials/get-started.html#configuration">配置选项</a> 部分。</p>
+<p>服务器可以使用 header 信息对用户进行身份验证并将其附加到 GraphQL 执行上下文，因此解析器可以根据用户的角色和权限修改其行为。</p>
+<h2 id="login-logout">注销时重置存储</h2>
+<p>由于 Apollo 会缓存您的所有查询结果，因此在登录状态更改时删除它们非常重要。</p>
+<p>确保 UI 和存储状态反映的是当前用户权限的最简单方法是在登录或注销过程完成后调用 <code>client.resetStore()</code>。 这将导致清除存储并重新获取所有查询。 如果您只想清除存储并且不想重新获取查询，请使用 <code>client.clearStore()</code>。 另一种选择是重新加载页面，产生类似的效果。</p>
+<pre><code class="language-js">const PROFILE_QUERY = gql`
+  query CurrentUserForLayout {
+    currentUser {
+      login
+      avatar_url
+    }
+  }
+`;
+
+const Profile = () =&gt; (
+  &lt;Query query={PROFILE_QUERY} fetchPolicy=&quot;network-only&quot;&gt;
+    {({ client, loading, data: { currentUser } }) =&gt; {
+      if (loading) {
+        return &lt;p className=&quot;navbar-text navbar-right&quot;&gt;Loading...&lt;/p&gt;;
+      }
+      if (currentUser) {
+        return (
+          &lt;span&gt;
+            &lt;p className=&quot;navbar-text navbar-right&quot;&gt;
+              {currentUser.login}
+              &amp;nbsp;
+              &lt;button
+                onClick={() =&gt; {
+                  // call your auth logout code then reset store
+                  App.logout().then(() =&gt; client.resetStore());
+                }}
+              &gt;
+                Log out
+              &lt;/button&gt;
+            &lt;/p&gt;
+          &lt;/span&gt;
+        );
+      }
+      return (
+        &lt;p className=&quot;navbar-text navbar-right&quot;&gt;
+          &lt;a href=&quot;/login/github&quot;&gt;Log in with GitHub&lt;/a&gt;
+        &lt;/p&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#cookie">Cookie</a></li>
+<li><a href="#header">Header</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/apollo-client-query/">
+              <h3 class="post-title">
+                Apollo Client - 2.Query
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

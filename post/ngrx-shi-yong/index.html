@@ -1,0 +1,670 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NgRx使用 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              NgRx使用
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-21
+              </span>
+              <span>
+                16 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/xp-qE3psyDd/" class="post-tag">
+                  # NGRX
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/6xU4bfZPU67/" class="post-tag">
+                  # ANGULAR
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/oFf0Uzxfvyw/" class="post-tag">
+                  # 状态管理
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/899l1JII0xX/" class="post-tag">
+                  # 数据流
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/ngrx-shi-yong.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>NgRx是用于在Angular中构建反应式应用程序的框架。NgRx提供状态管理，副作用隔离，实体集合管理，路由器绑定，代码生成以及开发人员工具，这些工具可增强开发人员在构建许多不同类型的应用程序时的体验。</p>
+<!-- more -->
+<h3 id="为什么要使用ngrx进行状态管理">为什么要使用NgRx进行状态管理？</h3>
+<p>NgRx通过存储单个状态和使用操作来表达状态更改，从而提供了用于创建可维护的显式应用程序的状态管理。</p>
+<ul>
+<li>
+<p><strong>可序列化</strong><br>
+通过规范化状态变化并将其传递给可观察对象，NgRx提供了可序列化性，并确保状态可预测地存储。这样可以将状态保存到外部存储，例如localStorage。<br>
+此外，它还允许从Store Devtools检查，下载，上传和调度操作。</p>
+</li>
+<li>
+<p><strong>类型安全</strong><br>
+依靠TypeScript编译器来保证程序正确性，从而在整个体系结构中提高了类型安全性。</p>
+</li>
+<li>
+<p><strong>封装</strong><br>
+使用NgRx Effects和Store，可以将与外部资源副作用（例如网络请求，Web套接字和任何业务逻辑）的任何交互都与UI隔离。这种隔离允许使用更多纯净和简单的组件，并保持单一职责原则。</p>
+</li>
+<li>
+<p><strong>可测试的</strong><br>
+由于Store使用纯函数来更改状态和从状态中选择数据，并且能够将副作用与UI隔离，因此测试变得非常简单。NgRx还提供诸如provideMockStore和provideMockActions用于隔离测试的测试设置，并提供更好的测试体验。</p>
+</li>
+<li>
+<p><strong>性能</strong><br>
+存储建立在单个不变的数据状态上，使用OnPush策略使更改检测变成一项非常容易的任务。NgRx还由可记忆的选择器功能提供支持，这些选择器功能可优化状态查询计算。</p>
+</li>
+</ul>
+<h3 id="何时应使用ngrx进行状态管理">何时应使用NgRx进行状态管理</h3>
+<p>当管理服务中的状态不再足够时，在构建具有大量用户交互和多个数据源的应用程序时，可能会使用NgRx。<br>
+SHARI原则可以回答“我何时需要NgRx”这个问题：</p>
+<ul>
+<li>Shared：由许多组件和服务的访问的状态。</li>
+<li>Hydrated：从外部存储持久化。</li>
+<li>Available：状态，需要时可用重新进入路线。</li>
+<li>Retrieved：必须附带副作用的状态。</li>
+<li>Impacted：受其他来源的行动影响的状态。</li>
+</ul>
+<h3 id="ngrxstore">@ngrx/store</h3>
+<p>Store是受Redux启发的RxJS支持的Angular应用程序状态管理。 Store是一个受控状态容器，旨在帮助在Angular上编写高性能，一致的应用程序。</p>
+<h3 id="关键概念">关键概念</h3>
+<ul>
+<li>Actions: 动作描述从组件和服务调度的唯一事件</li>
+<li>State: 状态更改由称为简化器的纯函数处理，这些函数采用当前状态和最新操作来计算新状态。</li>
+<li>Selectors: 选择器是用于选择，导出和组成状态块的纯函数。</li>
+<li>State是通过Store访问的，状态是可观察的，行为是观察者。</li>
+</ul>
+<h3 id="状态流">状态流</h3>
+<p>下图表示NgRx中应用程序状态的总体一般流程：<br>
+<img src="https://fanguyun214.github.io/post-images/1595323865715.png" alt="" loading="lazy"></p>
+<h3 id="安装">安装</h3>
+<pre><code>// use npm 
+npm install @ngrx/store --save
+// use yarn 
+yarn add @ngrx/store
+// use ng add
+ng add @ngrx/store
+</code></pre>
+<h3 id="示例">示例</h3>
+<p>以下教程向您展示如何管理计数器的状态，以及如何在Angular组件中选择和显示它:<br>
+1、创建一个名为counter.actions.ts的新文件，以描述递增，递减和重置其值的计数器动作。</p>
+<pre><code>// src/app/counter.actions.ts
+import { createAction } from '@ngrx/store';
+
+export const increment = createAction('[Counter Component] Increment');
+export const decrement = createAction('[Counter Component] Decrement');
+export const reset = createAction('[Counter Component] Reset');
+</code></pre>
+<p>2、根据提供的操作对reducer函数进行细化以处理计数器值的更改</p>
+<pre><code>// src/app/counter.reducer.ts
+import { createReducer, on } from '@ngrx/store';
+import { increment, decrement, reset } from './counter.actions';
+
+export const initialState = 0;
+
+const _counterReducer = createReducer(initialState,
+  on(increment, state =&gt; state + 1),
+  on(decrement, state =&gt; state - 1),
+  on(reset, state =&gt; 0),
+);
+
+export function counterReducer(state, action) {
+  return _counterReducer(state, action);
+}
+</code></pre>
+<p>3、从@ ngrx / store和counter.reducer文件导入StoreModule。</p>
+<pre><code>// src/app/app.module.ts (imports)
+
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from './counter.reducer';
+</code></pre>
+<p>4、在AppModule的imports数组中添加StoreModule.forRoot函数，其中包含一个对象，该对象包含计数和管理计数器状态的counterReducer。 StoreModule.forRoot（）方法注册在整个应用程序中访问商店所需的全局提供程序。</p>
+<pre><code>// src/app/app.module.ts (StoreModule)
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from './counter.reducer';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    StoreModule.forRoot({ count: counterReducer })
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+</code></pre>
+<p>5、在app文件夹中创建一个名为my-counter的新组件。将存储服务注入到组件中以分派计数器动作，并使用select运算符从状态中选择数据。<br>
+使用按钮更新MyCounterComponent模板，以调用递增，递减和重置方法。使用异步管道订阅可观察的count。</p>
+<pre><code>// src/app/my-counter/my-counter.component.html
+&lt;button id=&quot;increment&quot; (click)=&quot;increment()&quot;&gt;Increment&lt;/button&gt;
+
+&lt;div&gt;Current Count: {{ count$ | async }}&lt;/div&gt;
+
+&lt;button id=&quot;decrement&quot; (click)=&quot;decrement()&quot;&gt;Decrement&lt;/button&gt;
+
+&lt;button id=&quot;reset&quot; (click)=&quot;reset()&quot;&gt;Reset Counter&lt;/button&gt;
+</code></pre>
+<p>使用用于计数的选择器和用于调度Increment，Decrement和Reset操作的方法更新MyCounterComponent类</p>
+<pre><code>// src/app/my-counter/my-counter.component.ts
+import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { increment, decrement, reset } from '../counter.actions';
+
+@Component({
+  selector: 'app-my-counter',
+  templateUrl: './my-counter.component.html',
+  styleUrls: ['./my-counter.component.css'],
+})
+export class MyCounterComponent {
+  count$: Observable&lt;number&gt;;
+
+  constructor(private store: Store&lt;{ count: number }&gt;) {
+    this.count$ = store.pipe(select('count'));
+  }
+
+  increment() {
+    this.store.dispatch(increment());
+  }
+
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
+  }
+}
+</code></pre>
+<p>6、将MyCounter组件添加到您的AppComponent模板中。</p>
+<pre><code>// src/app/app.component.html
+&lt;app-my-counter&gt;&lt;/app-my-counter&gt;
+</code></pre>
+<p>单击递增，递减和重置按钮以更改计数器的状态。</p>
+<p>让我们介绍一下您所做的事情：</p>
+<ul>
+<li>定义的事件表达动作。</li>
+<li>定义了一个reducer功能来管理计数器的状态。</li>
+<li>注册了整个应用程序中可用的全局状态容器。</li>
+<li>注入了存储服务以调度动作并选择计数器的当前状态。</li>
+<li></li>
+</ul>
+<h3 id="通过actions-reducers和selectors了解ngrx应用程序的体系结构">通过actions、reducers和selectors了解NgRx应用程序的体系结构</h3>
+<h4 id="actios">Actios</h4>
+<p>Actions是NgRx中的主要构建块之一。 Actions表示在整个应用程序中发生的独特事件。 从用户与页面的交互，通过网络请求的外部交互以及与设备API的直接交互，这些以及更多事件均通过actions进行了描述。<br>
+NgRx中的Action由一个简单的接口组成：</p>
+<pre><code>// Action Interface
+interface Action {
+  type: string;
+}
+</code></pre>
+<p>接口具有单个属性，即类型，表示为字符串。 type属性用于描述将在您的应用程序中分派的操作。 该类型的值以[Source] Event的形式出现，用于提供有关它是什么actions类别以及从哪里调度动作的上下文。 您向actions添加属性以为操作提供其他上下文或元数据。<br>
+让我们看一下启动登录请求的示例Action:</p>
+<pre><code>// login-page.actions.ts
+import { createAction, props } from '@ngrx/store';
+
+export const login = createAction(
+  '[Login Page] Login',
+  props&lt;{ username: string; password: string }&gt;()
+);
+</code></pre>
+<p>createAction函数返回一个函数，该函数在被调用时将以Action接口的形式返回一个对象。 props方法用于定义处理动作所需的任何其他元数据。<br>
+Action创建者提供了一种一致的，类型安全的方式来构造要分派的Action。<br>
+使用Action创建者在分派时返回Action。</p>
+<pre><code>// login-page.component.ts
+onSubmit(username: string, password: string) {
+  store.dispatch(login({ username: username, password: password }));
+}
+</code></pre>
+<p>login Action创建者将收到一个用户名和密码的对象，并返回一个普通的JavaScript对象，其类型属性为[Login Page] Login，并将用户名和密码作为附加属性。<br>
+返回的Action具有非常具体的上下文，关于操作来自何处以及发生了什么事件:</p>
+<ul>
+<li>操作的类别捕获在方括号[]中,该类别用于对特定区域的操作进行分组，无论是组件页面，后端API还是浏览器API。</li>
+<li>类别后的登录文本是有关此操作发生了什么事件的描述。在这种情况下，用户单击登录页面上的登录按钮以尝试使用用户名和密码进行身份验证。</li>
+</ul>
+<h4 id="reducers">Reducers</h4>
+<p>NgRx中的reducer负责处理应用程序中从一个状态到下一个状态的转换。 Reducer纯函数通过根据操作的类型确定要处理的操作来处理这些转换。<br>
+由Reducer管理的每个状态都有一些一致的部分：</p>
+<p>定义state形状的接口或类型<br>
+参数包括初始状态或当前状态以及当前操作<br>
+处理state更改的功能及其相关</p>
+<p>以下是一组处理记分板state的操作示例以及相关的reducer功能:<br>
+首先，定义一些与state交互的action。</p>
+<pre><code>// scoreboard-page.actions.ts
+import { createAction, props } from '@ngrx/store';
+
+export const homeScore = createAction('[Scoreboard Page] Home Score');
+export const awayScore = createAction('[Scoreboard Page] Away Score');
+export const resetScore = createAction('[Scoreboard Page] Score Reset');
+export const setScores = createAction('[Scoreboard Page] Set Scores', props&lt;{game: Game}&gt;());
+</code></pre>
+<p>接下来，创建一个reducer文件，该文件导入action并为state块定义形状。</p>
+<h5 id="1-定义state形状">1、定义state形状</h5>
+<p>每个reducer函数都是一个action监听器。上面定义的记分板action描述了reducer可能处理的过渡。导入多组操作以处理reducer中的其他状态转换。</p>
+<pre><code>// scoreboard.reducer.ts
+import { Action, createReducer, on } from '@ngrx/store';
+import * as ScoreboardPageActions from '../actions/scoreboard-page.actions';
+
+export interface State {
+  home: number;
+  away: number;
+}
+</code></pre>
+<h5 id="2设置初始state值">2.设置初始state值</h5>
+<p>初始状态为状态提供一个初始值，如果当前状态未定义，则提供一个值。 您将默认状态设置为所需状态属性的初始状态。</p>
+<p>创建并导出变量以捕获具有一个或多个默认值的初始状态。</p>
+<pre><code>// scoreboard.reducer.ts
+export const initialState: State = {
+  home: 0,
+  away: 0,
+};
+</code></pre>
+<h5 id="3创建recucer函数">3.创建recucer函数</h5>
+<p>reducer功能的职责是以不变的方式处理状态转换。创建一个reducer函数，该函数处理使用createReducer函数管理计分板state的action。</p>
+<pre><code>const scoreboardReducer = createReducer(
+  initialState,
+  on(ScoreboardPageActions.homeScore, state =&gt; ({ ...state, home: state.home + 1 })),
+  on(ScoreboardPageActions.awayScore, state =&gt; ({ ...state, away: state.away + 1 })),
+  on(ScoreboardPageActions.resetScore, state =&gt; ({ home: 0, away: 0 })),
+  on(ScoreboardPageActions.setScores, (state, { game }) =&gt; ({ home: game.home, away: game.away }))
+);
+
+export function reducer(state: State | undefined, action: Action) {
+  return scoreboardReducer(state, action);
+}
+</code></pre>
+<p>导出的reducer函数是必需的，因为AOT编译器不支持函数调用。</p>
+<h5 id="4-注册root-state">4、注册root state</h5>
+<p>应用程序的state被定义为一个大对象。注册reducer函数以管理部分state时，只会在对象中定义具有关联值的键。要在您的应用程序中注册全局store，请使用StoreModule.forRoot（）方法以及定义您的state的键/值对的映射。 StoreModule.forRoot（）注册应用程序的全局提供程序，包括您注入到组件和服务中的Store服务，以分派操作并选择状态</p>
+<pre><code>// app.module.ts
+
+import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import * as fromScoreboard from './reducers/scoreboard.reducer';
+
+@NgModule({
+  imports: [
+    StoreModule.forRoot({ game: fromScoreboard.reducer })
+  ],
+})
+export class AppModule {}
+</code></pre>
+<p>使用StoreModule.forRoot（）注册state可确保在应用程序启动时定义state。通常，您注册的root state始终需要立即对应用程序的所有区域可用。</p>
+<h5 id="6注册功能state">6.注册功能state</h5>
+<p>功能state的行为与root state相同，但是允许您在应用程序中使用特定功能区域定义它们。 您的root state是一个大对象，而功能state会在该对象中注册其他键和值。</p>
+<p>让我们从一个空的state对象开始。</p>
+<pre><code>import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+
+@NgModule({
+  imports: [
+    StoreModule.forRoot({})
+  ],
+})
+export class AppModule {}
+</code></pre>
+<p>这会将您的应用程序注册为root state为空的对象。</p>
+<pre><code>{}
+</code></pre>
+<p>现在，将记分板reducer与名为ScoreboardModule的NgModule功能一起使用，以注册其他state</p>
+<pre><code>// scoreboard.reducer.ts
+export const scoreboardFeatureKey = 'game';
+
+
+// scoreboard.module.ts
+import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import * as fromScoreboard from './reducers/scoreboard.reducer';
+
+@NgModule({
+  imports: [
+    StoreModule.forFeature(fromScoreboard.scoreboardFeatureKey, fromScoreboard.reducer)
+  ],
+})
+export class ScoreboardModule {}
+</code></pre>
+<p>将ScoreboardModule添加到AppModule以加载state。</p>
+<pre><code>// app.module.ts
+import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { ScoreboardModule } from './scoreboard/scoreboard.module';
+
+@NgModule({
+  imports: [
+    StoreModule.forRoot({}),
+    ScoreboardModule
+  ],
+})
+export class AppModule {}
+</code></pre>
+<p>一旦记分板模块被加载，game键就成为root state对象中的一个属性，并且现在处于state中进行管理</p>
+<pre><code>{
+  game: { home: 0, away: 0 }
+}
+</code></pre>
+<p>立即加载state还是延迟加载state取决于应用程序的需求。您可以使用功能state随着时间推移并通过不同的功能模块来构建state对象。</p>
+<h4 id="selectors">Selectors</h4>
+<p>Selectors是用于获取存储state切片的纯函数。 @ ngrx / store提供了一些帮助程序功能来优化此选择。选择state切片时，选择器提供许多功能:<br>
+可移植性 记忆化 组成 可测性 类型安全。<br>
+使用createSelector和createFeatureSelector函数时，@ ngrx / store会跟踪调用选择器函数的最新参数。 因为选择器是纯函数，所以当参数匹配时可以返回最后的结果，而无需重新调用选择器函数。 这可以提供性能优势，尤其是对于执行昂贵计算的选择器而言。 这种做法称为记忆。<br>
+对一个state使用选择器：</p>
+<pre><code>import { createSelector } from '@ngrx/store';
+
+export interface FeatureState {
+  counter: number;
+}
+
+export interface AppState {
+  feature: FeatureState;
+}
+
+export const selectFeature = (state: AppState) =&gt; state.feature;
+
+export const selectFeatureCount = createSelector(
+  selectFeature,
+  (state: FeatureState) =&gt; state.counter
+);
+</code></pre>
+<p>对多个状态使用选择器:<br>
+createSelector可用于基于同一状态的多个切片从状态中选择一些数据。<br>
+createSelector函数最多可以使用8个选择器函数，以进行更完整的状态选择。<br>
+例如，假设您在状态中有一个selectedUser对象。 您还具有book对象的allBooks数组。<br>
+您想显示当前用户的所有书籍。<br>
+您可以使用createSelector来实现。 即使您在allBooks中对其进行了更新，您的可见图书也将始终是最新的。 如果选择了一本，它们将始终显示属于您用户的图书，而当未选择任何用户时，它们将显示所有图书。<br>
+结果将只是状态的另一部分过滤掉您的某些状态。 而且它将永远是最新的。</p>
+<pre><code>import { createSelector } from '@ngrx/store';
+
+export interface User {
+  id: number;
+  name: string;
+}
+
+export interface Book {
+  id: number;
+  userId: number;
+  name: string;
+}
+
+export interface AppState {
+  selectedUser: User;
+  allBooks: Book[];
+}
+
+export const selectUser = (state: AppState) =&gt; state.selectedUser;
+export const selectAllBooks = (state: AppState) =&gt; state.allBooks;
+
+export const selectVisibleBooks = createSelector(
+  selectUser,
+  selectAllBooks,
+  (selectedUser: User, allBooks: Book[]) =&gt; {
+    if (selectedUser &amp;&amp; allBooks) {
+      return allBooks.filter((book: Book) =&gt; book.userId === selectedUser.id);
+    } else {
+      return allBooks;
+    }
+  }
+);
+</code></pre>
+<p>将选择器与props一起使用:<br>
+要根据store中不可用的数据选择state，可以将props传递给选择器功能。 这些props通过每个选择器和投影仪功能传递。 为此，我们必须在组件内部使用选择器时指定这些props。<br>
+例如，如果我们有一个计数器，并且想将其值相乘，则可以将相乘因子添加为prop：<br>
+选择器或投影仪的最后一个参数是props参数，在我们的示例中，它看起来如下:</p>
+<pre><code>export const getCount = createSelector(
+  getCounterValue,
+  (counter, props) =&gt; counter * props.multiply
+);
+</code></pre>
+<p>在组件内部，我们可以定义props：</p>
+<pre><code>ngOnInit() {
+  this.counter = this.store.pipe(select(fromRoot.getCount, { multiply: 2 }))
+}
+</code></pre>
+<p>以下是使用以ID区分的多个计数器的示例。</p>
+<pre><code>export const getCount = () =&gt;
+  createSelector(
+    (state, props) =&gt; state.counter[props.id],
+    (counter, props) =&gt; counter * props.multiply
+  );
+</code></pre>
+<p>组件的选择器现在正在调用工厂函数来创建不同的选择器实例：</p>
+<pre><code>ngOnInit() {
+  this.counter2 = this.store.pipe(select(fromRoot.getCount(), { id: 'counter2', multiply: 2 }));
+  this.counter4 = this.store.pipe(select(fromRoot.getCount(), { id: 'counter4', multiply: 4 }));
+  this.counter6 = this.store.pipe(select(fromRoot.getCount(), { id: 'counter6', multiply: 6 }));
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8ngrx%E8%BF%9B%E8%A1%8C%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86">为什么要使用NgRx进行状态管理？</a></li>
+<li><a href="#%E4%BD%95%E6%97%B6%E5%BA%94%E4%BD%BF%E7%94%A8ngrx%E8%BF%9B%E8%A1%8C%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86">何时应使用NgRx进行状态管理</a></li>
+<li><a href="#ngrxstore">@ngrx/store</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5">关键概念</a></li>
+<li><a href="#%E7%8A%B6%E6%80%81%E6%B5%81">状态流</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B">示例</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87actions-reducers%E5%92%8Cselectors%E4%BA%86%E8%A7%A3ngrx%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84">通过actions、reducers和selectors了解NgRx应用程序的体系结构</a>
+<ul>
+<li><a href="#actios">Actios</a></li>
+<li><a href="#reducers">Reducers</a>
+<ul>
+<li><a href="#1-%E5%AE%9A%E4%B9%89state%E5%BD%A2%E7%8A%B6">1、定义state形状</a></li>
+<li><a href="#2%E8%AE%BE%E7%BD%AE%E5%88%9D%E5%A7%8Bstate%E5%80%BC">2.设置初始state值</a></li>
+<li><a href="#3%E5%88%9B%E5%BB%BArecucer%E5%87%BD%E6%95%B0">3.创建recucer函数</a></li>
+<li><a href="#4-%E6%B3%A8%E5%86%8Croot-state">4、注册root state</a></li>
+<li><a href="#6%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BDstate">6.注册功能state</a></li>
+</ul>
+</li>
+<li><a href="#selectors">Selectors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/charles-an-zhuang-ji-dai-li-pei-zhi/">
+              <h3 class="post-title">
+                Charles安装及代理配置
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

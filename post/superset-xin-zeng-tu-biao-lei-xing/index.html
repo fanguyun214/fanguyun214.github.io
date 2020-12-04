@@ -1,0 +1,328 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Superset新增图表类型 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Superset新增图表类型
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-18
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/cLVLj82xQ/" class="post-tag">
+                  # 大数据
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/q3kCk-mzCN/" class="post-tag">
+                  # 数据分析
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/7e6kC-aJtC/" class="post-tag">
+                  # 数据可视化
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/superset-xin-zeng-tu-biao-lei-xing.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="前端版本028">前端(版本0.28)</h2>
+<h3 id="1新增图表文件">1.新增图表文件</h3>
+<p>目录： superset/assets/src/visualizations 如新增EchartRader目录（后面目录和KEY值保持统一）<br>
+<img src="https://fanguyun214.github.io/post-images/1600482189915.png" alt="" loading="lazy"><br>
+images下提供一张正方形示例图</p>
+<h3 id="2配置查询项">2.配置查询项</h3>
+<p>目录：<code>superset/assets/src/explore/controlPanels</code></p>
+<p>新增echartrader.js配置文件</p>
+<pre><code>import { t } from '@superset-ui/translation';
+
+export default {
+    label: t('echarts_radar'),
+    showOnExplore: true,
+    controlPanelSections: [{
+        label: t('Query'),
+        expanded: true,
+        //主要是下面的部分，可以找superset原有的图表模板，通过查看sql的方式看看每个配件都是做什么的
+        controlSetRows: [
+            ['metrics'],
+            ['columns'],
+            ['adhoc_filters'],
+        ]
+    }]
+}
+</code></pre>
+<p>在index.js中引入新增文件并关联</p>
+<h3 id="3注册新增图表项">3.注册新增图表项</h3>
+<p>目录 <code>superset/assets/src/visualizations/presets</code></p>
+<p>编辑LegacyChartPreset.js,映入图表并注册</p>
+<pre><code>import EchartRader from '../EchartRader/EchartRaderPlugin';
+    
+export default class LegacyChartPreset extends Preset {
+    constructor() {
+        super({
+            name: 'Legacy charts',
+            presets: [
+                new CommonChartPreset(),
+                new DeckGLChartPreset(),
+                new HierarchyChartPreset(),
+                new MapChartPreset(),
+            ],
+            plugins: [
+                new BulletChartPlugin().configure({ key: 'bullet' }),
+                new CalendarChartPlugin().configure({ key: 'cal_heatmap' }),
+                new ChordChartPlugin().configure({ key: 'chord' }),
+                new CompareChartPlugin().configure({ key: 'compare' }),
+                new DualLineChartPlugin().configure({ key: 'dual_line' }),
+                new EventFlowChartPlugin().configure({ key: 'event_flow' }),
+                new ForceDirectedChartPlugin().configure({ key: 'directed_force' }),
+                new HeatmapChartPlugin().configure({ key: 'heatmap' }),
+                new HorizonChartPlugin().configure({ key: 'horizon' }),
+                new LineMultiChartPlugin().configure({ key: 'line_multi' }),
+                new PairedTTestChartPlugin().configure({ key: 'paired_ttest' }),
+                new ParallelCoordinatesChartPlugin().configure({ key: 'para' }),
+                new RoseChartPlugin().configure({ key: 'rose' }),
+                new SankeyChartPlugin().configure({ key: 'sankey' }),
+                new TimePivotChartPlugin().configure({ key: 'time_pivot' }),
+                new EchartRader().configure({ key: 'echart_rader' }),
+            ],
+        });
+    }
+}
+
+</code></pre>
+<h2 id="后端">后端</h2>
+<p>新增处理数据接口</p>
+<p>目录 <code>/Users/fan/incubator-superset/superset/viz.py</code></p>
+<pre><code>class echartsRadar(BaseViz):
+    
+    &quot;&quot;&quot; echarts radar viz &quot;&quot;&quot;
+
+    viz_type = 'echart_rader' # 对应前端名字
+    verbose_name = _('echart_rader')
+    is_timeseries = False
+
+    def get_data(self, df):
+        data = self.handle_js_int_overflow(
+            dict(
+                records=df.to_dict(orient='records'),
+                columns=list(df.columns),
+            ))
+        columns_pre = [data['records'][i][data['columns'][0]] for i in range(len(data['records']))]
+        max_num = np.max([data['records'][i][data['columns'][1]] for i in range(len(data['records']))])
+        columns = [{'name': columns_pre[i],
+                    'max':str(max_num)}for i in range(len(columns_pre))]
+        out_data = [
+            {'value': [data['records'][i][data['columns'][j+1]] for i in range(len(data['records']))],
+             'name':data['columns'][j+1]}for j in range(len(data['columns'])-1)
+        ]
+        return [{'indicator' : columns, 'data' : out_data}]
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E7%AB%AF%E7%89%88%E6%9C%AC028">前端(版本0.28)</a>
+<ul>
+<li><a href="#1%E6%96%B0%E5%A2%9E%E5%9B%BE%E8%A1%A8%E6%96%87%E4%BB%B6">1.新增图表文件</a></li>
+<li><a href="#2%E9%85%8D%E7%BD%AE%E6%9F%A5%E8%AF%A2%E9%A1%B9">2.配置查询项</a></li>
+<li><a href="#3%E6%B3%A8%E5%86%8C%E6%96%B0%E5%A2%9E%E5%9B%BE%E8%A1%A8%E9%A1%B9">3.注册新增图表项</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E7%AB%AF">后端</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/mongodb-bi-ji-3linux-ping-tai-an-zhuang/">
+              <h3 class="post-title">
+                MongoDB笔记-3（Linux平台安装）
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

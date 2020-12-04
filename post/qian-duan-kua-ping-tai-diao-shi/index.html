@@ -1,0 +1,523 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>前端跨平台调试 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              前端跨平台调试
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-04-27
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/xsC8BvdbF/" class="post-tag">
+                  # Debug
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/JNIiV17vx2/" class="post-tag">
+                  # 移动端
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/LJZZCe_xIw/" class="post-tag">
+                  # 调试
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>如何调试移动端页面一直是比较头疼的事。与桌面浏览器不同，当H5页面嵌入到app后，无法很方便地按出F12来查看元素，或者断点调试js。另外，移动端设备差异化非常严重，iphone 6 到 iphone 11，android 更是不用多说。</p>
+<!-- more -->
+<h3 id="移动端调试痛点">移动端调试痛点</h3>
+<p>设备差异、环境差异、系统差异。PC端浏览器开发者工具，VS Debug。移动端，我的手机是好的，测试小姐姐说她的手机有bug。微信微博等第三方环境，怎么调试？</p>
+<h3 id="常用调试方法">常用调试方法</h3>
+<h4 id="charlesfiddler">Charles/Fiddler</h4>
+<p>抓包工具，可以截取包括 <code>https</code> 在内的各种网络请求并方便的查看具体信息。通过配置 <code>WIFI</code> 代理，也可以拦截手机发出的请求，在一定程度上帮助 <code>debug</code>。软件付费，而且它定位不了 <code>js</code> 的报错，所以只能作为一个辅助工具。</p>
+<h4 id="android-chrome浏览器">Android + Chrome浏览器</h4>
+<p>第一步：打开 <code>Android</code> 手机 <code>设置</code> &gt; <code>开发者选项</code> &gt; <code>USB调试</code>。</p>
+<p>第二步：通过数据线连接你的电脑和 <code>Android</code> 手机，允许USB调试。</p>
+<p>第三步：Android<code>手机下载一个手机版的</code>Chrome浏览器，并在手机上的 <code>Chrome浏览器</code> 中打开你需要调试的页面。</p>
+<p>第四步：打开电脑上的 <code>Chrome浏览器</code>，输入<a href="chrome://inspect/#devices">chrome://inspect/#devices</a></p>
+<h4 id="maciossafari">Mac+IOS+Safari</h4>
+<p>第一步：打开苹果手机 <code>设置</code> &gt; <code>Safari浏览器</code> &gt; <code>高级</code> &gt; <code>Web检查器</code></p>
+<p>第二步： 打开 <code>Mac</code> 上的 <code>Safari浏览器</code> &gt; <code>偏好设置</code> &gt; <code>高级</code> &gt; <code>在菜单栏中显示“开发”菜单</code></p>
+<p>第三步： 用数据线连接你的 <code>Mac</code> 电脑和苹果手机，并选择信任设备。然后在手机的 <code>Safari浏览器</code> 中打开你需要调试的页面，然后在电脑Safari中打开调试页面，菜单 &gt; 开发 &gt;  设备名。选择打开的页面。</p>
+<h4 id="vconsole"><a href="https://github.com/Tencent/vConsole">vConsole</a></h4>
+<p>腾讯出品的 Web 调试面板。<code>vConsole</code> 会在你网页中加一个悬浮的小按钮，可以点击它来打开关闭调试面板，并查看 <code>DOM</code>、<code>Console</code>、<code>Network</code>和 <code>本地存储</code> 等信息。基本可以满足普通前端开发的需求。使用方法也很简单，通过<code>npm</code>安装或者直接在需要的页面引入 <code>js文件</code> ，然后 <code>new VConsole()</code> 就可以了。</p>
+<h4 id="eruda"><a href="https://github.com/liriliri/eruda">Eruda</a></h4>
+<p>Eruda 是一个专为手机网页前端设计的调试面板，类似 DevTools 的迷你版，其主要功能包括：捕获 console 日志、检查元素状态、捕获XHR请求、显示本地存储和 Cookie 信息等等。</p>
+<h4 id="weiner"><a href="https://github.com/tvganesh/weiner">weiner</a></h4>
+<p>weinre是一款很不错的网页检查工具，可以通过在本地启动一个 <code>weinre</code> 服务，并向手机网页嵌入一段 <code>js</code> 脚本来实现和电脑的通信，已达到类似浏览器开发工具那样的的调试效果，它的操作界面和 <code>vConsole</code> 差不多，主要包括查看 <code>DOM</code>、<code>Console</code>、<code>Network</code> 等，只不过这一切是在电脑上操作，而不是在手机上。</p>
+<h3 id="常见调试场景">常见调试场景</h3>
+<ol>
+<li>
+<p>本地开发host映射，如微信，微博授权，支付域名固定</p>
+</li>
+<li>
+<p>独立H5页面真机调试</p>
+</li>
+<li>
+<p>嵌入第三方调试</p>
+</li>
+<li>
+<p>特定第三方环境调试</p>
+</li>
+<li>
+<p>线上环境调试</p>
+</li>
+</ol>
+<h3 id="调试工具推荐">调试工具推荐</h3>
+<p>whistle是基于Node实现的跨平台web调试代理工具，主要用于查看、修改HTTP、HTTPS、Websocket的请求/响应，也可以作为HTTP代理服务器使用，whistle采用的是类似配置系统hosts的方式，一切操作都可以通过配置实现，支持域名、路径、正则表达式、通配符、通配路径等多种匹配方式，且可以通过Node模块扩展功能。</p>
+<p>官方文档：<a href="http://wproxy.org/whistle/">wproxy.org/whistle/</a></p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2020/04/27/bYWUTVt5Zdv9ceS.png" alt="基本功能" loading="lazy"></figure>
+<h4 id="安装使用">安装使用</h4>
+<ul>
+<li>
+<p>安装</p>
+<pre><code class="language-sh">npm install -g whistle
+</code></pre>
+</li>
+<li>
+<p>命令</p>
+<pre><code>w2 help
+
+  Usage: whistle &lt;command&gt; [options]
+
+  Commands:
+
+  status              Show the running status of whistle
+  use/add [filepath]  Set rules from a specified js file (.whistle.js by default)
+  run                 Start a front service
+  start               Start a background service
+  stop                Stop current background service
+  restart             Restart current background service
+  help                Display help information
+</code></pre>
+</li>
+<li>
+<p>使用</p>
+<pre><code>// 启动
+w2 start
+// 重启
+w2 stop
+// 停止 
+w2 stop
+</code></pre>
+</li>
+<li>
+<p>设置代理</p>
+<p>1、全局代理</p>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2020/04/27/aDqFRKvEsuLzfxn.jpg" alt="img" loading="lazy"></figure>
+<p>2、浏览器代理</p>
+<p>安装浏览器插件，如Chrome： <a href="https://chrome.google.com/webstore/detail/padekgcemlokbadohgkifijomclgjgif">SwitchyOmega</a></p>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2020/04/27/2SLrqlR49Dd3AnO.jpg" alt="img" loading="lazy"></figure>
+<p>3、移动端设置代理</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2020/04/27/S2YI1ZBipPG3hLe.jpg" alt="img" loading="lazy"></figure>
+</li>
+<li>
+<p>访问配置页面</p>
+<ul>
+<li>
+<p>方式1：域名访问 http://local.whistlejs.com/</p>
+</li>
+<li>
+<p>方式2：通过ip+端口来访问，形式如 <code>http://whistleServerIP:whistlePort/</code> e.g. <a href="http://127.0.0.1:8899/">http://127.0.0.1:8899</a></p>
+</li>
+<li>
+<p>方式2：通过命令行参数 <code>-P xxxx</code> 自定义webui的端口(<code>xxxx</code>表示要设置的端口号)，自定义端口支持上述两种方</p>
+<p>式访问，也支持 <a href="http://127.0.0.1:xxxx/">http://127.0.0.1:xxxx</a></p>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2020/04/27/lNmHR2aipqYOx4e.png" alt="image-20200427121814079" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2020/04/27/WAZ7qxDLtdHKaVy.png" alt="image-20200427121855918" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>注入文件配置</p>
+<pre><code>w2 add [filepath]
+</code></pre>
+</li>
+</ul>
+<h5 id="常用功能">常用功能</h5>
+<ul>
+<li>
+<p>Host映射</p>
+<pre><code># host映射
+192.168.0.107 http://checkout.m.xiaodianpu.com
+192.168.0.107 http://oauth2.m.xiaodianpu.com
+192.168.0.107 http://shop12345678.m.xiaodianpu.com
+127.0.0.1 http://shop.m.xiaodianpu.com    # 直接的host配置
+192.168.0.107:8081 one.test.com two.test.com         # 对全部域名路径替换host
+192.168.0.107 three.com/ads                # 对特定的路径替换host
+</code></pre>
+</li>
+<li>
+<p>请求转发</p>
+<pre><code># 请求转发
+shop02604127.m.xiaodianpu.com https://shop02604127.m.xiaodianpu.com
+oauth2.m.xiaodianpu.com https://oauth2.m.xiaodianpu.com
+checkout.m.xiaodianpu.com https://checkout.m.xiaodianpu.com
+**.m.xiaodianpu.com https://shop02604127.m.xiaodianpu.com  # 所有子域名转发生效
+</code></pre>
+</li>
+<li>
+<p>调试远程页面</p>
+<pre><code>https://shop02604127.m.xiaodianpu.com weinre://test
+</code></pre>
+</li>
+<li>
+<p>开启Eruda，插件形式注入</p>
+<pre><code># 开启eruda
+shop12345678.m.xiaodianpu.com whistle.inspect://e
+checkout.m.xiaodianpu.com whistle.inspect://e
+</code></pre>
+</li>
+<li>
+<p>开启Vconsole, 插件形式注入</p>
+<pre><code># 开启eruda
+shop12345678.m.xiaodianpu.com whistle.inspect://e
+checkout.m.xiaodianpu.com whistle.inspect://e
+</code></pre>
+</li>
+<li>
+<p>数据Mock</p>
+<p>基于<a href="https://github.com/nuysoft/Mock">Mock.js</a></p>
+<pre><code>	
+http://mock.local/data.json vase://mock_json_demo
+</code></pre>
+</li>
+<li>
+<p>开启跨域</p>
+<pre><code># 开启跨域
+test.com file://{createData.json}
+</code></pre>
+</li>
+<li>
+<p>脚本注入</p>
+<pre><code># 脚本注入
+test.com html://Users/fan/xdp-webapp/whistle/debug.html
+shop02604127.m.xiaodianpu.com js://Users/fan/xdp-webapp/whistle/debug.js
+test.com css://Users/fan/xdp-webapp/whistle/debug.css
+
+</code></pre>
+</li>
+<li>
+<p>重定向</p>
+<pre><code># 重定向
+https://www.baidu.com/ redirect://https://m.xiaodianpu.com
+
+</code></pre>
+</li>
+<li>
+<p>替换线上文件</p>
+<pre><code>static.seecsee.com/ufs/webapp/3de34c68/main-es2015.ce5beedbe4b13d68c4ab.js file:///Users/fan/xdp-webapp/dist/apps/webapp/browser/main.js
+</code></pre>
+</li>
+<li>
+<p>修改请求</p>
+<pre><code># 修改url参数
+www.qq.com urlParams://E:\test\params.json        
+ 
+# 请求方法
+www.qq.com method://post
+ 
+# 添加请求头
+www.qq.com reqHeaders://(x-a=1&amp;x-b=a%20b)
+ 
+# 修改referer(修改referer快捷方法)
+www.qq.com referer://http://ke.qq.com/
+ 
+# 修改cookie(修改请求cookie快捷方法)
+www.qq.com reqCookie://{reqCookie.json}
+ 
+# 修改请求表单
+www.qq.com params://{form.json}
+
+# 修改接口返回状态
+https://test.com/test statusCode://500
+</code></pre>
+</li>
+<li>
+<p>修改响应</p>
+<pre><code># 修改响应状态码
+www.qq.com statusCode://500 # 请求不会发送到后台服务器，可以用来模拟4xx、5xx请求
+www.qq.com replaceStatus://404 # 请求返回后再修改statusCode
+ 
+# 添加响应头
+www.qq.com resHeaders://(x-res-a=1&amp;x-res-b=a%20b)
+ 
+# 修改响应类型(修改响应类型的快捷方法)
+www.qq.com resType://text/plain # 或者： www.qq.com resType://text
+ 
+# 请求替换
+www.qq.com https://www.baidu.com
+ 
+# 本地替换(windows中目录分割符可以用`\`，也可以用`/`)
+www.qq.com file://E:\xxx # 等价于： file://E:/xxx www.qq.com
+# Mac或Linux
+www.qq.com file:///User/xxx/test
+# 如果要让本地没有对应文件的请求继续请求线上，可以采用
+www.qq.com xfile://E:\xxx
+ 
+# 本地替换jsonp
+www.qq.com tpl://E:\xxx.json # xxx.json: {callback}({&quot;ec&quot;: 0})
+www.qq.com xtpl://E:\xxx.json # xxx.json: {callback}({&quot;ec&quot;: 0})
+	
+# 说明：会把内容 append 到请求后面
+http://mydomain.com/style.css resAppend://{myAppend.css}
+# 说明：完全替换请求内容
+http://mydomain.com/style.css resBody://{myResBody.css}
+ 
+
+</code></pre>
+</li>
+<li>
+<p>启用或禁用一些配置</p>
+<pre><code># 拦截url里面有baidu的https请求
+/baidu/ enable://intercept
+
+# 拦截域名www.google.com下的所有https请求，且不在Network上显示
+www.google.com enable://intercept|hide
+
+# 禁用请求的缓存，只要经过代理且匹配到的请求都不会使用缓存
+# 跟 cache 协议的区别是，cache 只是用来设置响应的缓存头
+wwww.test.com disable://cache
+
+# 禁用请求和响应的cookie
+wwww.test.com disable://cookie # 也可以写成复数形式cookies
+
+# 只禁用请求的cookie
+wwww.test.com disable://reqCookie # 也可以写成复数形式reqCookies
+
+# 只禁用响应的cookie
+wwww.test.com disable://resCookie # 也可以写成复数形式reqCookies
+</code></pre>
+</li>
+</ul>
+<h3 id="更多">更多</h3>
+<p>whistle更多使用及插件开发请参考官方文档：<a href="http://wproxy.org/whistle/">wproxy.org/whistle/</a></p>
+<p>项目中具体的问题，根据场景，选择合适的工具方法，搭配使用！</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%B0%83%E8%AF%95%E7%97%9B%E7%82%B9">移动端调试痛点</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95">常用调试方法</a>
+<ul>
+<li><a href="#charlesfiddler">Charles/Fiddler</a></li>
+<li><a href="#android-chrome%E6%B5%8F%E8%A7%88%E5%99%A8">Android + Chrome浏览器</a></li>
+<li><a href="#maciossafari">Mac+IOS+Safari</a></li>
+<li><a href="#vconsole">vConsole</a></li>
+<li><a href="#eruda">Eruda</a></li>
+<li><a href="#weiner">weiner</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E8%B0%83%E8%AF%95%E5%9C%BA%E6%99%AF">常见调试场景</a></li>
+<li><a href="#%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90">调试工具推荐</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8">安装使用</a>
+<ul>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD">常用功能</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%9B%B4%E5%A4%9A">更多</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/zhi-fu-bao-zhi-fu-jie-ru/">
+              <h3 class="post-title">
+                支付宝支付接入
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

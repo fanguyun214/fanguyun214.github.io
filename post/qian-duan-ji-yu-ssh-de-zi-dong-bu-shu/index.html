@@ -1,0 +1,474 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>前端基于SSH的自动部署 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              前端基于SSH的自动部署
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-07-18
+              </span>
+              <span>
+                12 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/9viLSJBp_/" class="post-tag">
+                  # SSH
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/qVOQexVL_Q/" class="post-tag">
+                  # 持续集成
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/amI4cgC9h/" class="post-tag">
+                  # Git
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/qian-duan-ji-yu-ssh-de-zi-dong-bu-shu.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>SSH是一种网络协议，用于计算机之间的加密登录。</p>
+<!-- more -->
+<h3 id="ssh简介">ssh简介</h3>
+<p>原理：</p>
+<ul>
+<li>远程主机收到用户的登录请求，把自己的公钥发给用户。</li>
+<li>用户使用这个公钥，将登录密码加密后，发送回来。</li>
+<li>远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。</li>
+</ul>
+<p>当远程主机的公钥被接受以后，它就会被保存在本地文件~/.ssh/known_hosts之中，此外系统也有一个这样的文件，通常是/etc/ssh/ssh_known_hosts，保存一些对所有用户都可信赖的远程主机的公钥。</p>
+<h3 id="常用指令">常用指令</h3>
+<ul>
+<li>本地登录服务器 ssh user@remote -p port，端口是22的话ssh user@remote，退出登录exit</li>
+<li>本地免密码登录 ssh-copy-id user@remote -p port，这在写脚本服务器控制时特别有用</li>
+<li>给服务器配置别名 code ~/.ssh/config追加一些内容，就可以ssh selfname登录，不再需要记服务器ip地址了</li>
+<li>执行命令ssh selfname &quot;cd ~;ls&quot;，将会在服务器上执行引号里的命令，执行之后其自动关闭远程服务</li>
+<li>将a电脑文件(夹)复制到b电脑上哪个文件夹下面：scp username@a电脑ip:文件路径 username@b电脑ip:文件夹路径，是文件夹的话加上-r，这里也可以用别名，通常本机的话省略username@a电脑ip:</li>
+</ul>
+<pre><code>ssh user@remote -p port
+
+# user 是你在远程机器上的用户名，如果不指定的话默认为当前用户
+# remote 是远程机器的地址，可以是 IP，域名，或者是后面会提到的别名
+# port 是 SSH Server 监听的端口，如果不指定的话就为默认值 22
+# 比如我常用的 ssh zhm@120.79.52.223
+
+</code></pre>
+<p>通常在本地电脑输入以上命令之后，远程服务器就会询问密码，你输入的时候是看不见任何波动，输入完回车就可以了~，如果报错ssh: connect to host remote port 22: Connection refused，说明服务器没有按照ssh server，Ubantu Desktop系统默认是没有这个的，安装命令sudo apt-get install openssh-server</p>
+<h3 id="免密登录">免密登录</h3>
+<p>每次 ssh 都要输入密码是不是很烦呢？与密码验证相对的，是公钥验证。也就是说，要实现免密码登入，首先要设置 SSH 钥匙。也就是本地电脑生成公钥私钥，然后把公钥放在远程服务器上就可以了！<br>
+原理很简单，就是用户将自己的公钥储存在远程主机上。登录的时候，远程主机会向用户发送一段随机字符串，用户用自己的私钥加密后，再发回来。远程主机用事先储存的公钥进行解密，如果成功，就证明用户是可信的，直接允许登录shell，不再要求密码。</p>
+<pre><code># 查看本地有没有
+ls ~/.ssh
+# 没有就生成
+ssh-keygen
+# 在~/.ssh/目录下，会新生成两个文件：id_rsa.pub和id_rsa。前者是你的公钥，后者是你的私钥。
+# 把公钥放到远程服务器
+ssh-copy-id user@remote -p port
+# 比如我的 ssh-copy-id zhm@120.79.52.223
+
+</code></pre>
+<p>ssh-copy-id基本都安装了，万一没有，mac上brew install ssh-copy-id。<br>
+windows麻烦点ssh user@remote -p port 'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys' &lt; ~/.ssh/id_rsa.pub，意思是在远端执行新建 .ssh 文件夹，并把本地的 ~/.ssh/id_rsa.pub （也就是公钥）追加到远端的 .ssh/authorized_keys 中。当然，不使用这条命令的话，你也可以手动操作这个过程，即先复制公钥，再登入远程机器，粘贴到 .ssh/authorized_keys 当中。</p>
+<h3 id="配置别名">配置别名</h3>
+<p>每次都输入 ssh user@remote -p port，时间久了也会觉得很麻烦，特别是当 user, remote 和 port 都得输入，而且还不好记忆的时候。配置别名可以让我们进一步偷懒。比如我想用ssh lab替换上面一串</p>
+<pre><code># cat&gt;&gt;某文件&lt;&lt;EOF追加下内容， &gt;&gt; 追加的意思 &lt;&lt;EOF 遇到EOF终止
+# 因为是前端，直接用vscode编辑
+code ~/.ssh/config
+# 追加以下内容，保存
+Host lab
+    HostName remote
+    User user
+    Port port
+
+# 来登录吧
+ssh lab
+
+# 比如我的
+# Host han
+    # HostName 120.79.52.223
+    # User zhm
+    # Port 22
+# ssh han
+</code></pre>
+<h3 id="命令行执行登录并且在目标服务器上执行命令">命令行执行登录并且在目标服务器上执行命令</h3>
+<p>命令行执行登录并且在目标服务器上执行命令:</p>
+<pre><code># 单引号或者双引号，将命令包起来，然后分号隔开命令
+ssh user@remoteNode &quot;cd /home ; ls&quot;
+</code></pre>
+<p>如果是很多命令的话，需要建一个脚本。</p>
+<pre><code># 建一个脚本文件test.sh，里面写上这个，然后执行 sh test.sh
+#!/bin/bash  
+# 远程执行的内容在&quot;&lt; &lt; remotessh &quot; 至&quot; remotessh &quot;之间，如果不想本机出现日志的话 ssh user@remoteNode &gt;/dev/null 2&gt;&amp;1   &lt;&lt; remotessh
+ssh user@remoteNode &lt;&lt; remotessh
+ls
+exit
+remotessh
+</code></pre>
+<h3 id="传输文件">传输文件</h3>
+<p>两台机器间文件传输可以用scp，它的地址格式与 ssh 基本相同，都是可以省略用户名和端口，稍微的差别在与指定端口时用的是大写的 -P 而不是小写的。不过，如果你已经配置了别名，那么这都不重要，因为 scp 也支持直接用别名</p>
+<pre><code># 总的：本机的可以省略电脑的ip，默认的远程当前文件夹是 Home目录（~），将A电脑上的文件复制到B电脑上
+# 注意的地方：A若是文件，B电脑若也是文件的路径，不管文件存不存在，都会将A文件内容写入到B这个文件。
+#                    B电脑若是文件夹，不管文件夹存不存在，都会在这个文件夹下生成A电脑同名的文件和内容，有的话则会覆盖同名文件
+# A若是文件夹，加上-r，B电脑若是文件的路径会报错，B电脑若是文件夹路径，文件夹不存在的话则会建立这个文件夹且放入A文件夹里面的内容（相当于将A文件夹挪过去然后重命名），文件夹存在的话，会在这个文件夹下面生成一个和A同名的文件夹，里面内容一致
+scp A电脑:文件路径 B电脑:文件路径
+
+# 把本地的 /path/to/local/file 文件传输到远程的 /path/to/remote/file  
+scp -P port /path/to/local/file user@remote:/path/to/remote/file
+
+# 也可以使用别名
+scp /path/to/local/file lab:/path/to/remote/file
+
+# 把远程的 /path/to/remote/file 下载到本地的 /path/to/local/file
+scp lab:/path/to/remote/file /path/to/local/file
+
+# 远程的默认路径是家目录
+# 下面命令把当前目录下的 file 传到远程的 ~/dir/file
+scp file lab:dir/file
+
+# 加上 -r 命令可以传送文件夹
+# 下面命令可以把当前目录下的 dir 文件夹传到远程的家目录下
+scp -r dir lab:
+
+# 别忘了 . 可以用来指代当前目录
+# 下面命令可以把远程的 ~/dir 目录下载到当前目录里面
+scp -r lab:dir/ .
+</code></pre>
+<p>如果觉得使用命令行传输文件浑身不自在，你还可以使用 SFTP 协议。任何支持 SFTP 协议的客户端都能用你的 SSH 账号信息登入并管理文件，比如开源的有图形化界面的FTP客户端 FileZilla。别忘了，在这些客户端里面，你也可以指定你的私钥（~/.ssh/id_rsa），然后就能做到无密码登入了。</p>
+<h3 id="保持程序在后台运行">保持程序在后台运行</h3>
+<p>以下命令均在服务器执行</p>
+<h4 id="nohup">nohup</h4>
+<pre><code># 让程序在后台运行 比如 nohup node index.js &amp;
+nohup 一直执行的命令 &amp;
+# 看下任务号 node的那个
+ps
+# 如果需要终止的话
+kill 21455
+</code></pre>
+<h4 id="tmux">tmux</h4>
+<p>tmux更能执行复杂的程序，tmux还能管理多个窗口，窗口切分，复制粘贴等等，mac用户使用tmux更方便，新建会话tmux -CC，恢复的时候tmux -CC attach</p>
+<pre><code># 服务器上安装tmux
+sudo apt-get install tmux
+
+# 运行tmux，进入会话，此时运行任何东西都不会因为退出ssh而被杀死
+tmux
+
+# 暂时离开会话 ctrl+b 再按下d
+
+# 恢复会话
+# tmux attach
+
+# tmux命令必须运行在服务器上
+</code></pre>
+<p>以上内容来自<a href="https://juejin.im/post/5ce4a082e51d4577583ddc24">ssh免密登录服务器和scp的使用</a></p>
+<h3 id="基于rsync的部署">基于rsync的部署</h3>
+<p>参考<a href="https://segmentfault.com/a/1190000015669114">rsync 的使用方法</a></p>
+<h3 id="scp和rsync的区别">scp和rsync的区别</h3>
+<h4 id="scp命令">scp命令</h4>
+<p>1.scp 是 secure copy 的缩写，用于远程的文件的复制。</p>
+<p>2.参数：</p>
+<pre><code>-r： 递归复制整个目录。
+</code></pre>
+<p>3.实例：</p>
+<pre><code>scp /home/space/music/1.mp3 username@ip/home/root/others/music     
+scp /home/space/music/1.mp3 username@ip/home/root/others/music/001.mp3
+</code></pre>
+<p>如果是远程复制目录就加上 -r 参数 即可（重命名目录，就直接在命令后面添加，前提保证目标地址没有该目录）</p>
+<pre><code>scp -r /home/space/music/ username@ip:/home/root/others/music_new
+</code></pre>
+<p>把本地music目录复制到另一台服务器的others下，并重命名为music_new</p>
+<h4 id="rsync">rsync</h4>
+<p>1.rsync 是 remote sync 的缩写，用于linux系统下的数据镜像备份工具，远程服务器之间的文件拷贝。<br>
+2.参数：</p>
+<pre><code>-a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD。
+-v, --verbose 详细模式输出。
+-z, --compress 对备份的文件在传输时进行压缩处理。
+-P, --partial 保留那些因故没有完全传输的文件，以是加快随后的再次传输。
+</code></pre>
+<p>3.实例：</p>
+<pre><code>rsync -avp mylog /home/
+</code></pre>
+<p>scp是相当于复制，黏贴，如果有的话是覆盖，比较耗时间，不智能。</p>
+<p>rsync是复制，如果有重复的文件，会直接跳过，而且他自己的算法优化。</p>
+<p>scp是把文件全部复制过去，当文件修改后还是把所有文件复制过去，rsync 第一次是把所有文件同步过去，当文件修改后，只把修改的文件同步过去。</p>
+<h3 id="前端基于scp或rsync的自动部署">前端基于scp或rsync的自动部署</h3>
+<p>1、基于scp,新增部署脚本文件，如deploy.sh</p>
+<pre><code># 压缩文件，其中 dist为要上传的文件所在目录
+echo 压缩部署包！
+tar -zcvf dist.tar.gz dist/
+
+# 上传到服务器（需要输入密码，如果已经进行过私钥配置，则不用），其中/home/savoygu/gusaifei 为上传文件所在目录
+echo 上传文件
+scp -r dist.tar.gz 账号@服务器ip:服务器上传路径
+
+# 登录到服务器（需要输入密码，如果已经进行过私钥配置，则不用）
+# 服务器环境开启
+ssh 账号@服务器ip -tt &lt;&lt; EOF
+
+# 进入目标目录
+cd 服务器上传路径
+# 解压
+sudo tar -zxvf dist.tar.gz --strip-components 1
+# 移除线上压缩文件
+sudo rm -rf
+
+exit
+EOF
+# 服务器环境结束
+echo 上传完成！
+
+# 移除本地压缩文件
+echo 删除本地压缩包！
+rm -rf dist.tar.gz
+</code></pre>
+<p>使用rsync同理</p>
+<p>2、前端使用脚本</p>
+<pre><code>  &quot;scripts&quot;: {
+    &quot;deploy&quot;: &quot;cross-env NODE_ENV=production umi build &amp;&amp; ./deploy.sh&quot;
+  }
+</code></pre>
+<p>可结合gitlabCI，Travis CI实现持续集成，参考</p>
+<ul>
+<li><a href="https://juejin.im/post/5cb693b66fb9a0687a1719d3">持续集成服务 gitlabCI教程</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html">持续集成服务 Travis CI教程</a></li>
+</ul>
+<h3 id="错误处理">错误处理</h3>
+<p>1、权限问题</p>
+<pre><code>.ssh目录，以及/home/当前用户 需要700权限，参考以下操作调整
+sudo chmod 700 ~/.ssh
+sudo chmod 700 /home/当前用户
+.ssh目录下的authorized_keys文件需要600或644权限，参考以下操作调整
+sudo chmod 600 ~/.ssh/authorized_keys
+</code></pre>
+<p>2、StrictModes问题</p>
+<pre><code>编辑
+sudo vi /etc/ssh/sshd_config
+找到
+#StrictModes yes
+改成
+StrictModes no
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#ssh%E7%AE%80%E4%BB%8B">ssh简介</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4">常用指令</a></li>
+<li><a href="#%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95">免密登录</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%88%AB%E5%90%8D">配置别名</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%89%A7%E8%A1%8C%E7%99%BB%E5%BD%95%E5%B9%B6%E4%B8%94%E5%9C%A8%E7%9B%AE%E6%A0%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4">命令行执行登录并且在目标服务器上执行命令</a></li>
+<li><a href="#%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">传输文件</a></li>
+<li><a href="#%E4%BF%9D%E6%8C%81%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C">保持程序在后台运行</a>
+<ul>
+<li><a href="#nohup">nohup</a></li>
+<li><a href="#tmux">tmux</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8Ersync%E7%9A%84%E9%83%A8%E7%BD%B2">基于rsync的部署</a></li>
+<li><a href="#scp%E5%92%8Crsync%E7%9A%84%E5%8C%BA%E5%88%AB">scp和rsync的区别</a>
+<ul>
+<li><a href="#scp%E5%91%BD%E4%BB%A4">scp命令</a></li>
+<li><a href="#rsync">rsync</a></li>
+</ul>
+</li>
+<li><a href="#%E5%89%8D%E7%AB%AF%E5%9F%BA%E4%BA%8Escp%E6%88%96rsync%E7%9A%84%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2">前端基于scp或rsync的自动部署</a></li>
+<li><a href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">错误处理</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/shi-yong-commitizen-de-zheng-que-zi-shi/">
+              <h3 class="post-title">
+                使用commitizen的正确姿势 
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,503 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apollo Client - 2.Query | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1607064403714">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1607064403714" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Apollo Client - 2.Query
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-07-18
+              </span>
+              <span>
+                14 min read
+              </span>
+              
+                <a href="https://fanguyun214.github.io/tag/AmO1ThlSR/" class="post-tag">
+                  # Apollo Client
+                </a>
+              
+                <a href="https://fanguyun214.github.io/tag/dW_UwyEf6P/" class="post-tag">
+                  # Graphql
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/apollo-client-query.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>学习如何使用 Query 组件获取数据</p>
+<!-- more -->
+<p>以简单可预测的方式获取数据是 Apollo Client 的核心功能之一。 在本指南中，您将学习如何构建 Query 组件以获取 GraphQL 数据并将结果附加到 UI。 您还将了解 Apollo Client 如何通过跟踪错误和加载状态来简化数据管理代码。</p>
+<p>假设您熟悉构建 GraphQL 查询。 如果你想复习一下, 我们推荐 <a href="http://graphql.org/learn/queries/">阅读本指南</a> 和练习 <a href="../features/developer-tooling.html#features">在GraphiQL中运行查询</a>. 由于 Apollo Client 查询是标准的 GraphQL，因此您在 GraphiQL 中成功运行的任何查询也将在 Apollo Query 组件中运行。</p>
+<p>以下示例假设您已经设置了 Apollo Client 并将您的 React 应用程序包装在 <code>ApolloProvider</code> 组件中。 阅读我们的 <a href="./get-started.html">入门</a> 指南, 如果您需要有关这两个步骤的帮助。</p>
+<blockquote>
+<p>如果你想参考这些例子，请打开 CodeSandbox 上的 <a href="https://codesandbox.io/s/j2ly83749w">启动项目</a>和 <a href="https://codesandbox.IO/S/32ypr38l61">this CodeSandbox</a> 上的示例 GraphQL 服务器。 您可以查看应用程序的 <a href="https://codesandbox.io/s/n3jykqpxwm">完整版本</a>。</p>
+</blockquote>
+<h2 id="query组件">Query组件</h2>
+<p>Query 组件是 Apollo 应用程序最重要的构建块之一。 要创建 Query 组件， 只需将包含 <code>gql</code> 函数的 GraphQL 查询字符串传递给 <code>this.props.query</code> ，并为 <code>this.props.children</code> 提供一个函数，告诉 React 要呈现什么。<br>
+<code>Query</code> 组件是使用 <a href="https://reactjs.org/docs/render-props.html">render prop</a> 模式的React组件的示例。 React将使用 Apollo Client 中的对象调用您提供的 render prop 函数，该对象包含可用于呈现 UI 的加载，错误和数据属性。 我们来看一个例子：</p>
+<p>首先，让我们创建 GraphQL 查询。 请记住将查询字符串包装在 <code>gql</code> 函数中，以便将其解析为查询文档。 一旦我们创建好 GraphQL 查询，让我们通过将它传递给 <code>query</code> prop 来将它附加到我们的 <code>Query</code> 组件。</p>
+<p>我们还需要为 <code>Query</code> 组件提供一个子函数，它将告诉 React 我们想要呈现什么。 我们可以使用 <code>Query</code> 组件为我们提供的 <code>loading</code>，<code>error</code> 和 <code>data</code> 属性，以便根据查询的状态智能地呈现不同的 UI。 让我们看看这是什么样的！</p>
+<pre><code class="language-jsx">import gql from &quot;graphql-tag&quot;;
+import { Query } from &quot;react-apollo&quot;;
+
+const GET_DOGS = gql`
+  {
+    dogs {
+      id
+      breed
+    }
+  }
+`;
+
+const Dogs = ({ onDogSelected }) =&gt; (
+  &lt;Query query={GET_DOGS}&gt;
+    {({ loading, error, data }) =&gt; {
+      if (loading) return &quot;Loading...&quot;;
+      if (error) return `Error! ${error.message}`;
+
+      return (
+        &lt;select name=&quot;dog&quot; onChange={onDogSelected}&gt;
+          {data.dogs.map(dog =&gt; (
+            &lt;option key={dog.id} value={dog.breed}&gt;
+              {dog.breed}
+            &lt;/option&gt;
+          ))}
+        &lt;/select&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+<p>如果你在 <code>App</code> 组件中渲染 <code>Dogs</code>，一旦 Apollo Client 从服务器接收数据，你将首先看到加载状态，然后是带有狗品种列表的表单。 当表单值改变时，我们将通过 <code>this.props.onDogSelected</code> 将值发送给父组件， 最终将值传递给 <code>DogPhoto</code> 组件。</p>
+<p>在下一步中，我们将通过构建一个 <code>DogPhoto</code> 组件将表单挂载到一个更复杂的变量查询。</p>
+<h2 id="接收数据">接收数据</h2>
+<p>您已经在 render prop 函数中看到了如何处理查询结果。 当我们从 <code>Query</code> 组件中获取数据时，让我们深入了解 Apollo Client 幕后发生的事情。</p>
+<ol>
+<li>当 <code>Query</code> 组件安装时，Apollo Client 会为我们的查询创建一个 observable。 我们的组件通过 Apollo Client 缓存订阅查询结果。</li>
+<li>首先，我们尝试 从 Apollo 缓存加载查询结果。 如果缓存中不存在，我们将请求发送到服务器。</li>
+<li>一旦数据返回，我们将其标准化并将其存储在 Apollo 缓存中。 由于 <code>Query</code> 组件订阅了结果，因此它会自动更新数据。</li>
+</ol>
+<p>要查看 Apollo Client 的缓存操作，让我们构建我们的 <code>DogPhoto</code> 组件。 <code>DogPhoto</code> 接受一个名为 <code>breed</code> 的道具，它反映了上面 <code>Dogs</code> 组件中我们表单的当前值。</p>
+<pre><code class="language-jsx">const GET_DOG_PHOTO = gql`
+  query Dog($breed: String!) {
+    dog(breed: $breed) {
+      id
+      displayImage
+    }
+  }
+`;
+
+const DogPhoto = ({ breed }) =&gt; (
+  &lt;Query query={GET_DOG_PHOTO} variables={{ breed }}&gt;
+    {({ loading, error, data }) =&gt; {
+      if (loading) return null;
+      if (error) return `Error!: ${error}`;
+
+      return (
+        &lt;img src={data.dog.displayImage} style={{ height: 100, width: 100 }} /&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+<p>您会注意到 <code>Query</code> 组件上有一个新的配置选项。 prop<code>variable</code> 是一个包含我们想要传递给 GraphQL 查询的变量对象。 在这种情况下，我们希望将表格中的品种传递给我们的查询。</p>
+<p>尝试从列表中选择 &quot;bulldog&quot; 以查看其照片显示。 然后，切换到另一个品种并切换回 &quot;bulldog&quot;。 你会注意到牛头犬照片第二次瞬间加载。 这是 Apollo 缓存在起作用！</p>
+<p>接下来，让我们学习一些确保数据新鲜的技术，例如轮询和重新获取。</p>
+<h2 id="轮询和重新获取">轮询和重新获取</h2>
+<p>Apollo Client 为您缓存数据真是太棒了，但是当我们需要新数据时我们应该怎么做？ 两种解决方案是轮询和重新获取。</p>
+<p>轮询可以通过在指定的时间间隔内重新获取来帮助我们实现接近实时的数据。 要实现轮询，只需将 <code>pollInterval</code> prop传递给 <code>Query</code> 组件，间隔为 ms。 如果传入 0，查询将不会轮询。 您还可以通过在传递给 render prop 函数的结果对象上使用 <code>startPolling</code> 和 <code>stopPolling</code> 函数来实现动态轮询。</p>
+<pre><code class="language-jsx">const DogPhoto = ({ breed }) =&gt; (
+  &lt;Query
+    query={GET_DOG_PHOTO}
+    variables={{ breed }}
+    skip={!breed}
+    pollInterval={500}
+  &gt;
+    {({ loading, error, data, startPolling, stopPolling }) =&gt; {
+      if (loading) return null;
+      if (error) return `Error!: ${error}`;
+
+      return (
+        &lt;img src={data.dog.displayImage} style={{ height: 100, width: 100 }} /&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+<p>通过将 <code>pollInterval</code> 设置为 500 ，您应该每隔 0.5 秒看到一个新的狗图像。 轮询是实现近实时数据的绝佳方式，而无需复杂的设置 GraphQL 订阅。</p>
+<p>如果要重新加载查询以响应用户操作而不是间隔，该怎么办？ 这就是 <code>refetch</code> 函数的用武之地！ 在这里，我们在 <code>DogPhoto</code> 组件中添加了一个按钮，该按钮会在单击时触发重新获取。<code>refetch</code> 接受变量，但如果我们不传入新变量，它将使用我们之前查询中的相同变量。</p>
+<pre><code class="language-jsx">const DogPhoto = ({ breed }) =&gt; (
+  &lt;Query
+    query={GET_DOG_PHOTO}
+    variables={{ breed }}
+    skip={!breed}
+  &gt;
+    {({ loading, error, data, refetch }) =&gt; {
+      if (loading) return null;
+      if (error) return `Error!: ${error}`;
+
+      return (
+        &lt;div&gt;
+          &lt;img
+            src={data.dog.displayImage}
+            style={{ height: 100, width: 100 }}
+          /&gt;
+          &lt;button onClick={() =&gt; refetch()}&gt;Refetch!&lt;/button&gt;
+        &lt;/div&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+<p>如果单击该按钮，您会注意到我们的 UI 更新了最新的数据。 重新获取是保证新数据的一种很好的方法，但它在加载状态时引入了一些额外的复杂性。 在下一节中，您将学习处理复杂加载和错误状态的策略。</p>
+<h2 id="加载和错误状态">加载和错误状态</h2>
+<p>我们已经看到 Apollo Client 如何在渲染函数中公开我们的查询的加载和错误状态。 这些属性对于初次查询加载时有用，但是当我们重新获取或轮询时，我们的加载状态会发生什么？</p>
+<p>让我们回到上一节中的示例。 如果单击 “Refetch” 按钮，您将看到组件在新数据到达之前不会重新呈现。 如果我们想向用户表明我们正在重新获取照片怎么办？</p>
+<p>幸运的是，Apollo Client 通过 render prop 函数中结果对象的 <code>networkStatus</code> 属性提供有关查询状态的细粒度信息。 我们还需要将 prop 的 notifyOnNetworkStatusChange 设置为 true ，以便我们的查询组件在重新加载时重新渲染。</p>
+<pre><code class="language-jsx">const DogPhoto = ({ breed }) =&gt; (
+  &lt;Query
+    query={GET_DOG_PHOTO}
+    variables={{ breed }}
+    skip={!breed}
+    notifyOnNetworkStatusChange
+  &gt;
+    {({ loading, error, data, refetch, networkStatus }) =&gt; {
+      if (networkStatus === 4) return &quot;Refetching!&quot;;
+      if (loading) return null;
+      if (error) return `Error!: ${error}`;
+
+      return (
+        &lt;div&gt;
+          &lt;img
+            src={data.dog.displayImage}
+            style={{ height: 100, width: 100 }}
+          /&gt;
+          &lt;button onClick={() =&gt; refetch()}&gt;Refetch!&lt;/button&gt;
+        &lt;/div&gt;
+      );
+    }}
+  &lt;/Query&gt;
+);
+</code></pre>
+<p><code>networkStatus</code> 属性是一个枚举，其数字值为 1-8，表示不同的加载状态。 4 对应重新获取，但也有用于轮询和分页的数字值。 有关所有可能加载状态的完整列表，请查看<a href="../api/react-apollo.html#graphql-query-data-networkStatus">参考指南</a>。</p>
+<p>虽然没有加载状态那么复杂，但是也可以通过 <code>Query</code> 组件上的 <code>errorPolicy</code> prop 来自定义组件中的错误。 <code>errorPolicy</code> 的默认值是 “none” ，我们将所有 GraphQL 错误视为运行时错误。 如果发生错误，Apollo Client 将丢弃随请求返回的任何数据，并将 render prop 函数中的 <code>error</code> 属性设置为 true。 如果您想显示任何部分数据以及任何错误信息，请将 <code>errorPolicy</code> 设置为 “all”。</p>
+<h2 id="手动触发查询">手动触发查询</h2>
+<p>当 React 安装一个 <code>Query</code> 组件时，Apollo Client 会自动触发你的查询。 如果您想延迟触发查询，直到用户执行操作（例如单击按钮），该怎么办？ 对于这种情况，我们想要使用 <code>ApolloConsumer</code> 组件并直接调用 <code>client.query()</code>。</p>
+<pre><code class="language-jsx">import React, { Component } from 'react';
+import { ApolloConsumer } from 'react-apollo';
+
+class DelayedQuery extends Component {
+  state = { dog: null };
+
+  onDogFetched = dog =&gt; this.setState(() =&gt; ({ dog }));
+
+  render() {
+    return (
+      &lt;ApolloConsumer&gt;
+        {client =&gt; (
+          &lt;div&gt;
+            {this.state.dog &amp;&amp; &lt;img src={this.state.dog.displayImage} /&gt;}
+            &lt;button
+              onClick={async () =&gt; {
+                const { data } = await client.query({
+                  query: GET_DOG_PHOTO,
+                  variables: { breed: &quot;bulldog&quot; }
+                });
+                this.onDogFetched(data.dog);
+              }}
+            &gt;
+              Click me!
+            &lt;/button&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/ApolloConsumer&gt;
+    );
+  }
+}
+</code></pre>
+<p>以这种方式获取是非常冗长的，所以我们建议尽可能使用 <code>Query</code> 组件！</p>
+<blockquote>
+<p>如果您想查看我们刚刚构建的应用程序的完整版本，您可以查看CodeSandbox <a href="https://codesandbox.io/s/n3jykqpxwm">此处</a>.</p>
+</blockquote>
+<h2 id="query-api-概览">Query API 概览</h2>
+<p>如果您正在寻找所有 <code>Query</code> 组件接受及其渲染方法功能的概述，请不要再看了！ 大多数 <code>Query</code> 组件不需要所有这些配置选项，但知道它们存在是有用的。 如果您想通过使用示例更详细地了解 <code>Query</code> 组件 API，请访问我们的<a href="../api/react-apollo.html">参考指南</a>.</p>
+<h3 id="props">Props</h3>
+<p>Query 组件接受以下 props。 只有 <code>query</code> 和 <code>children</code>是必须的 <strong>required</strong>.</p>
+<dl>
+  <dt>`query`: DocumentNode</dt>
+  <dd>GraphQL查询文档通过`graphql-tag`解析为AST。 **Required**</dd>
+  <dt>`children`: (result: QueryResult) => React.ReactNode</dt>
+  <dd>一个函数，根据查询结果返回要渲染的 UI。**Required**</dd>
+  <dt>`variables`: { [key: string]: any }</dt>
+  <dd>包含执行查询需要的所有变量对象</dd>
+  <dt>`pollInterval`: number</dt>
+  <dd>指定组件轮询数据的时间间隔（以毫秒为单位）。 默认为 0（无轮询）。</dd>
+  <dt>`notifyOnNetworkStatusChange`: boolean</dt>
+  <dd>是否更新网络状态或网络错误应重新呈现组件。 默认为false。</dd>
+  <dt>`fetchPolicy`: FetchPolicy</dt>
+  <dd>您希望组件如何与 Apollo 缓存交互。 默认为 “cache-first”。</dd>
+  <dt>`errorPolicy`: ErrorPolicy</dt>
+  <dd>您希望组件如何处理网络和 GraphQL 错误。 默认为 “none”，这意味着我们将 GraphQL 错误视为运行时错误。</dd>
+  <dt>`ssr`: boolean</dt>
+  <dd>传入 false 以在服务端渲染期间跳过查询。</dd>
+  <dt>`displayName`: string</dt>
+  <dd>要在 React DevTools 中显示的组件的名称。 默认为 'Query'。</dd>
+  <dt>`skip`: boolean</dt>
+  <dd>如果 skip 为 true，则将完全跳过查询。</dd>
+  <dt>`onCompleted`: (data: TData | {}) => void</dt>
+  <dd>查询成功完成后执行的回调。</dd>
+  <dt>`onError`: (error: ApolloError) => void</dt>
+  <dd>发生错误时执行的回调。</dd>
+  <dt>`context`: Record<string, any></dt>
+  <dd>查询组件与网络接口（Apollo Link）之间的共享上下文。 用于从道具设置标题或将信息发送到 Apollo Boost 的 `request` 功能。</dd>
+  <dt>`partialRefetch`: boolean</dt>
+  <dd>如果是 `true`，如果查询结果被标记为部分，则执行查询 `refetch`，并且由 Apollo Client `QueryManager` 将返回的数据重置为空对象（由于高速缓存未命中）。 出于向后兼容性的原因，默认值为 “false”，但对于大多数实例，应将其更改为true。</dd>
+</dl>
+<h3 id="render-prop-function">Render prop function</h3>
+<p>使用具有以下属性的对象（<code>QueryResult</code>）调用传递给 <code>Query</code> 的 <code>children</code> prop 的 render prop 函数。 此对象包含您的查询结果，以及一些有用的函数，用于重新获取，动态轮询和分页。</p>
+<dl>
+  <dt>`data`: TData</dt>
+  <dd>包含 GraphQL 查询结果的对象。 默认为空对象。</dd>
+  <dt>`loading`: boolean</dt>
+  <dd>一个布尔值，指示请求是否在执行中</dd>
+  <dt>`error`: ApolloError</dt>
+  <dd>使用 `graphQLErrors` 和 `networkError` 属性的运行时错误</dd>
+  <dt>`variables`: { [key: string]: any }</dt>
+  <dd>包含调用查询的变量对象</dd>
+  <dt>`networkStatus`: NetworkStatus</dt>
+  <dd>1-8 之间的数字，对应网络请求的详细状态。 包括有关重新获取和轮询状态的信息。 与 `notifyOnNetworkStatusChange` 道具一起使用。
+</dd>
+  <dt>`refetch`: (variables?: TVariables) => Promise<ApolloQueryResult></dt>
+  <dd>一个允许您重新获取查询并可选地传入新变量的函数</dd>
+  <dt>`fetchMore`: ({ query?: DocumentNode, variables?: TVariables, updateQuery: Function}) => Promise<ApolloQueryResult></dt>
+  <dd>为您的查询启用 [pagination](../features/pagination.html) 的函数</dd>
+  <dt>`startPolling`: (interval: number) => void</dt>
+  <dd>此函数以 ms 为单位设置间隔，并在每次指定的间隔通过时获取查询。</dd>
+  <dt>`stopPolling`: () => void</dt>
+  <dd>此函数停止查询轮询。</dd>
+  <dt>`subscribeToMore`: (options: { document: DocumentNode, variables?: TVariables, updateQuery?: Function, onError?: Function}) => () => void</dt>
+  <dd>设置 [subscription](../advanced/subscriptions.html) 的函数。 `subscribeToMore` 返回一个可用于取消订阅的函数。</dd>
+  <dt>`updateQuery`: (previousResult: TData, options: { variables: TVariables }) => TData</dt>
+  <dd>函数，允许您在获取，变异或订阅的上下文之外的缓存中更新查询的结果</dd>
+  <dt>`client`: ApolloClient</dt>
+  <dd>你的 'ApolloClient` 实例。 用于手动触发查询或将数据写入。</dd>
+</dl>
+<h2 id="下一步">下一步</h2>
+<p>学习如何构建 <code>Query</code> 组件来获取数据是掌握 Apollo Client 开发的最重要技能之一。 既然您是获取数据的专家，为什么不尝试构建 <code>Mutation</code> 组件来更新您的数据？ 以下是我们认为可以帮助您提升技能的一些资源：</p>
+<ul>
+<li><a href="./mutations.html">Mutations</a>: 了解如何使用突变更新数据以及何时需要更新 Apollo 缓存。 有关选项的完整列表，请查看 <code>Mutation</code> 组件的API参考。</li>
+<li><a href="./local-state.html">Local state management</a>: 学习如何使用 <code>apollo-link-state</code> 查询本地数据。</li>
+<li><a href="../features/pagination.html">Pagination</a>: 基于 Apollo Client 的 <code>fetchMore</code> 功能，构建列表从未如此简单。 在我们的分页教程中了解更多信息。</li>
+<li><a href="https://youtu.be/YHJ2CaS0vpM">Query component video by Sara Vieira</a>: 如果您需要通过观看视频进行复习或学习，请查看 Sara 的 <code>Query</code> 组件的教程！</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#query%E7%BB%84%E4%BB%B6">Query组件</a></li>
+<li><a href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE">接收数据</a></li>
+<li><a href="#%E8%BD%AE%E8%AF%A2%E5%92%8C%E9%87%8D%E6%96%B0%E8%8E%B7%E5%8F%96">轮询和重新获取</a></li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E9%94%99%E8%AF%AF%E7%8A%B6%E6%80%81">加载和错误状态</a></li>
+<li><a href="#%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91%E6%9F%A5%E8%AF%A2">手动触发查询</a></li>
+<li><a href="#query-api-%E6%A6%82%E8%A7%88">Query API 概览</a>
+<ul>
+<li><a href="#props">Props</a></li>
+<li><a href="#render-prop-function">Render prop function</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%8B%E4%B8%80%E6%AD%A5">下一步</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/gitlab-ci-qian-duan-chi-xu-ji-cheng/">
+              <h3 class="post-title">
+                Gitlab-CI前端持续集成
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
