@@ -1,0 +1,356 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docker&amp;k8s入门 | Jason凡 Blog</title>
+<meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1608116157194">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-144114666-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://fanguyun214.github.io">
+  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1608116157194" alt="">
+  </a>
+  <h1 class="site-title">
+    Jason凡 Blog
+  </h1>
+  <p class="site-description">
+    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/fanguyun214" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://twitter.com/home" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://weibo.com/3307571020/profile" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Docker&amp;k8s入门
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-16
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。<br>
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。<br>
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<!-- more -->
+<h3 id="dopcker常用命令">Dopcker常用命令</h3>
+<pre><code>docker pull image - 拉取Image
+docker container ls -a - 列出所有容器
+docker run -it centos - 交互式运行
+docker run -d containerid - 后台执行
+docker run -p 80 imageid - 将容器的80端口随机映射到宿主机的一个端口上
+docker run -p 8000:80 imageid - 将容器的80端口映射到宿主机的8000端口上
+docker run --name web image - 以别名启动Image
+docker container rm id - 删除container
+docker imgae rm id - 删除Image
+docker container ls -aq  - 列出所有container ID
+docker rm $(docker container ls -aq) - 删除所有container
+docker rm $(docker coontainer ls -f &quot;status=exited&quot; -q) - 删除所有已退出的container
+docker commit containerName repository - 基于container构建Image（不提倡，建议通过Dockfile）
+docker history imageid  - Image历史记录
+docker build -t repository . - 基于当前目录Dockerfile构建Image
+more Dockerfile - 查看Dockerfile
+docker ps -a - 显示所有的容器，包括未运行的
+docker run -d --link redis --name flask-redis -e REDIS_HOST=redis -p 6000:5000 jasonfan123/flask-redis - containei互相访问设置（-e设置环境变量）
+docker rm -f container - 强制停止并删除container
+Dokcer Container操作
+docker exex -it containerid /bin/bash - 进入指定容器执行指定命令
+docker stop containerid - 停止运行中的container
+docker start containerid - 启动停止的container
+docker inspect containerid - container详细信息
+</code></pre>
+<h3 id="dockerfile基本语法">Dockerfile基本语法</h3>
+<pre><code># FROM - 基础镜像，尽量使用官方Image作为BaseImage
+FROM scratch # - 制作baseImage（不使用任何Image）
+FROM centos # - 使用baseImage
+# LABEL - Image信息描述,Metadata不可少
+LABEL version=&quot;1.0&quot;
+LABEL description=&quot;this is des&quot;
+# RUN - 执行命令并创建新的Image Layer，避免无用分层，合并多条命令为一行用&amp;&amp;， 复杂的可用反斜杠\换行
+RUN yum update &amp;&amp; yum install -y vim \ python-dev  # - 反斜杆换行
+RUN apt-get update &amp;&amp; apt-get install -y perl &amp;&amp; rm -rf \ var/lib/apt/list/* # - 注意清理cache
+# WORKDIR - 设定当前工作目录,用WORKDIR,不要用RUN cd，尽量使用绝对目录
+WORKDIR /test # - 如果没有会自动创建test目录
+WORKDIR demo
+RUN pwd # - 输出结果应该是/test/demo
+# ADD &amp;&amp; COPY - 把本地环境文件添加到docker Image中
+# ADD or COPY - 大部分情况COPY优于ADD，ADD除了COPY还有额外功能（解压），添加远程文件/目录请使用curl或者wget
+ADD hello /
+ADD test.tar.gz / # - 添加到根目录并解压
+WORKDIR /root
+ADD hello test/ - /root/test/hello
+WORKDIR /ROOT
+COPY hello test/ 
+# ENV - 设置环境常量，尽量使用ENV增加可维护性
+ENV MYSQL_VERSION 5.6 # - 设置常量
+RUN apt-get install -y mysql-server=&quot;${MYSQL_VERSION}&quot; \ &amp;&amp; rm -rf /var/lib/apt/lists/* # - 引用常量
+# VOLUME &amp;&amp; EXPOER - 存储和网络
+# CMD &amp;&amp; ENTRYPOINT
+# CMD - 设置容器启动后默认执行的命令和参数，如果docker run指定了其他命令，CMD命令被忽略，如果定义了多个CMD，只有最后一个会执行
+# ENTRYPOINT -  设置容器启动时运行的命令，让容器以应用程序或者服务的形式运行，不会被忽略一定会执行，最佳实践：写一个shell脚本作为entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT [&quot;docker-entrypoint.sh&quot;]
+# Shell和Exec格式
+# Shell格式 - 默认shell
+RUN apt-get install -y vim
+CMD echo &quot;hello docker&quot;
+ENTRYPOINT echo “hello docker” 
+# Exec格式 - 指定
+RUN [&quot;apt-get&quot;,&quot;install&quot;, &quot;-y&quot;,&quot;vim&quot;]
+CMD [&quot;/bin/echo&quot;, &quot;hello docker&quot;]
+ENTRYPOINT [&quot;/bin/echo&quot;, &quot;hello docker&quot;]
+Docker Image Push
+docker login
+docker push jasonfan123/centos-vim-new:latest
+</code></pre>
+<h3 id="数据持久化">数据持久化</h3>
+<pre><code># Dockerfile VOLUME # volume绕过container的文件系统，直接将数据写到host机器上，只是volume是被docker管理的，docker下所有的volume都在host机器上的指定目录下/var/lib/docker/volumes
+# VOLUME /var/lib/mysql
+docker volume ls - 查看volume
+docker run -v mysql:/var/lib/mysql - 重命名volume:路劲
+# Bind Mouting
+docker -v $(pwd):/root/aaa - 将宿主机当前目录映射到容器目录
+</code></pre>
+<h3 id="docker-compose">Docker Compose</h3>
+<pre><code>多容器应用：拉取多个image、创建多个container、要管理这些container
+Docker Compose 批处理，基于Docker的命令行工具，通过一个yml文件定义多容器的Docker应用，通过一条命令就可以根据yml文件去创建或者管理这个多个容器
+# 默认名字：docker-compose.yml
+# 三大概念： Services、Networks、Volumes
+# Services：
+    一个service代表一个container，可以从远程拉取iamge，也可以从本地的dockerfile build出来image
+    service的启动类似docker run，可以指定network和volume
+# docker-compose up - 启动多有yml文件容器，默认文件docker-compose.yml
+# docker-compose up -d - 后台运行
+# docker-compose -f xx.yml up - 指定yml文件  
+# docker-compose ps - 列出services
+# docker-compose start - 停止
+# docker-compose stop - 停止
+# docker-compose down - 停止并删除
+# docker-compose exec mysql bash - 进入容器并执行
+# docker-compose up --scale service=3 -d - 给service指定容器数量 (haproxy)
+  
+# wordprss &amp; mysql 示例
+version: '3'
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_PASSWORD: root
+    networks:
+      - my-bridge
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my-bridge
+volumes:
+  mysql-data:
+networks:
+  my-bridge:
+    driver: bridge
+</code></pre>
+<h3 id="swarm-mode">Swarm Mode</h3>
+<p>集成在docker中的容器编排工具</p>
+<h3 id="基于docker的devops">基于Docker的devops</h3>
+<figure data-type="image" tabindex="1"><img src="https://fanguyun214.github.io/post-images/1608115998615.png" alt="" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#dopcker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">Dopcker常用命令</a></li>
+<li><a href="#dockerfile%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">Dockerfile基本语法</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96">数据持久化</a></li>
+<li><a href="#docker-compose">Docker Compose</a></li>
+<li><a href="#swarm-mode">Swarm Mode</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8Edocker%E7%9A%84devops">基于Docker的devops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://fanguyun214.github.io/post/ji-yu-nrwlnx-de-gong-zuo-qu-zhong-lib-zhong-ru-he-yin-yong-environmentts-chai-yi-hua-pei-zhi/">
+              <h3 class="post-title">
+                Nrwl/NX工作区中lib差异化配置
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '94fca913faabe61337e0',
+    clientSecret: '9ee8a359f64b424f77e6fba28063b59788b92af1',
+    repo: 'fanguyun214.github.io',
+    owner: 'fanguyun214',
+    admin: ['fanguyun214'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by Jasonfan & Grider  🖥 | 
+  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

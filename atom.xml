@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fanguyun214.github.io</id>
     <title>Jason凡 Blog</title>
-    <updated>2020-12-04T06:50:42.519Z</updated>
+    <updated>2020-12-16T10:55:59.433Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fanguyun214.github.io"/>
     <link rel="self" href="https://fanguyun214.github.io/atom.xml"/>
@@ -10,6 +10,149 @@
     <logo>https://fanguyun214.github.io/images/avatar.png</logo>
     <icon>https://fanguyun214.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Jason凡 Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Docker&k8s入门]]></title>
+        <id>https://fanguyun214.github.io/post/dockerandk8s-ru-men/</id>
+        <link href="https://fanguyun214.github.io/post/dockerandk8s-ru-men/">
+        </link>
+        <updated>2020-12-16T10:45:28.000Z</updated>
+        <summary type="html"><![CDATA[<p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。<br>
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。<br>
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。<br>
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。<br>
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<!-- more -->
+<h3 id="dopcker常用命令">Dopcker常用命令</h3>
+<pre><code>docker pull image - 拉取Image
+docker container ls -a - 列出所有容器
+docker run -it centos - 交互式运行
+docker run -d containerid - 后台执行
+docker run -p 80 imageid - 将容器的80端口随机映射到宿主机的一个端口上
+docker run -p 8000:80 imageid - 将容器的80端口映射到宿主机的8000端口上
+docker run --name web image - 以别名启动Image
+docker container rm id - 删除container
+docker imgae rm id - 删除Image
+docker container ls -aq  - 列出所有container ID
+docker rm $(docker container ls -aq) - 删除所有container
+docker rm $(docker coontainer ls -f &quot;status=exited&quot; -q) - 删除所有已退出的container
+docker commit containerName repository - 基于container构建Image（不提倡，建议通过Dockfile）
+docker history imageid  - Image历史记录
+docker build -t repository . - 基于当前目录Dockerfile构建Image
+more Dockerfile - 查看Dockerfile
+docker ps -a - 显示所有的容器，包括未运行的
+docker run -d --link redis --name flask-redis -e REDIS_HOST=redis -p 6000:5000 jasonfan123/flask-redis - containei互相访问设置（-e设置环境变量）
+docker rm -f container - 强制停止并删除container
+Dokcer Container操作
+docker exex -it containerid /bin/bash - 进入指定容器执行指定命令
+docker stop containerid - 停止运行中的container
+docker start containerid - 启动停止的container
+docker inspect containerid - container详细信息
+</code></pre>
+<h3 id="dockerfile基本语法">Dockerfile基本语法</h3>
+<pre><code># FROM - 基础镜像，尽量使用官方Image作为BaseImage
+FROM scratch # - 制作baseImage（不使用任何Image）
+FROM centos # - 使用baseImage
+# LABEL - Image信息描述,Metadata不可少
+LABEL version=&quot;1.0&quot;
+LABEL description=&quot;this is des&quot;
+# RUN - 执行命令并创建新的Image Layer，避免无用分层，合并多条命令为一行用&amp;&amp;， 复杂的可用反斜杠\换行
+RUN yum update &amp;&amp; yum install -y vim \ python-dev  # - 反斜杆换行
+RUN apt-get update &amp;&amp; apt-get install -y perl &amp;&amp; rm -rf \ var/lib/apt/list/* # - 注意清理cache
+# WORKDIR - 设定当前工作目录,用WORKDIR,不要用RUN cd，尽量使用绝对目录
+WORKDIR /test # - 如果没有会自动创建test目录
+WORKDIR demo
+RUN pwd # - 输出结果应该是/test/demo
+# ADD &amp;&amp; COPY - 把本地环境文件添加到docker Image中
+# ADD or COPY - 大部分情况COPY优于ADD，ADD除了COPY还有额外功能（解压），添加远程文件/目录请使用curl或者wget
+ADD hello /
+ADD test.tar.gz / # - 添加到根目录并解压
+WORKDIR /root
+ADD hello test/ - /root/test/hello
+WORKDIR /ROOT
+COPY hello test/ 
+# ENV - 设置环境常量，尽量使用ENV增加可维护性
+ENV MYSQL_VERSION 5.6 # - 设置常量
+RUN apt-get install -y mysql-server=&quot;${MYSQL_VERSION}&quot; \ &amp;&amp; rm -rf /var/lib/apt/lists/* # - 引用常量
+# VOLUME &amp;&amp; EXPOER - 存储和网络
+# CMD &amp;&amp; ENTRYPOINT
+# CMD - 设置容器启动后默认执行的命令和参数，如果docker run指定了其他命令，CMD命令被忽略，如果定义了多个CMD，只有最后一个会执行
+# ENTRYPOINT -  设置容器启动时运行的命令，让容器以应用程序或者服务的形式运行，不会被忽略一定会执行，最佳实践：写一个shell脚本作为entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT [&quot;docker-entrypoint.sh&quot;]
+# Shell和Exec格式
+# Shell格式 - 默认shell
+RUN apt-get install -y vim
+CMD echo &quot;hello docker&quot;
+ENTRYPOINT echo “hello docker” 
+# Exec格式 - 指定
+RUN [&quot;apt-get&quot;,&quot;install&quot;, &quot;-y&quot;,&quot;vim&quot;]
+CMD [&quot;/bin/echo&quot;, &quot;hello docker&quot;]
+ENTRYPOINT [&quot;/bin/echo&quot;, &quot;hello docker&quot;]
+Docker Image Push
+docker login
+docker push jasonfan123/centos-vim-new:latest
+</code></pre>
+<h3 id="数据持久化">数据持久化</h3>
+<pre><code># Dockerfile VOLUME # volume绕过container的文件系统，直接将数据写到host机器上，只是volume是被docker管理的，docker下所有的volume都在host机器上的指定目录下/var/lib/docker/volumes
+# VOLUME /var/lib/mysql
+docker volume ls - 查看volume
+docker run -v mysql:/var/lib/mysql - 重命名volume:路劲
+# Bind Mouting
+docker -v $(pwd):/root/aaa - 将宿主机当前目录映射到容器目录
+</code></pre>
+<h3 id="docker-compose">Docker Compose</h3>
+<pre><code>多容器应用：拉取多个image、创建多个container、要管理这些container
+Docker Compose 批处理，基于Docker的命令行工具，通过一个yml文件定义多容器的Docker应用，通过一条命令就可以根据yml文件去创建或者管理这个多个容器
+# 默认名字：docker-compose.yml
+# 三大概念： Services、Networks、Volumes
+# Services：
+    一个service代表一个container，可以从远程拉取iamge，也可以从本地的dockerfile build出来image
+    service的启动类似docker run，可以指定network和volume
+# docker-compose up - 启动多有yml文件容器，默认文件docker-compose.yml
+# docker-compose up -d - 后台运行
+# docker-compose -f xx.yml up - 指定yml文件  
+# docker-compose ps - 列出services
+# docker-compose start - 停止
+# docker-compose stop - 停止
+# docker-compose down - 停止并删除
+# docker-compose exec mysql bash - 进入容器并执行
+# docker-compose up --scale service=3 -d - 给service指定容器数量 (haproxy)
+  
+# wordprss &amp; mysql 示例
+version: '3'
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_PASSWORD: root
+    networks:
+      - my-bridge
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my-bridge
+volumes:
+  mysql-data:
+networks:
+  my-bridge:
+    driver: bridge
+</code></pre>
+<h3 id="swarm-mode">Swarm Mode</h3>
+<p>集成在docker中的容器编排工具</p>
+<h3 id="基于docker的devops">基于Docker的devops</h3>
+<figure data-type="image" tabindex="1"><img src="https://fanguyun214.github.io/post-images/1608115998615.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Nrwl/NX工作区中lib差异化配置]]></title>
         <id>https://fanguyun214.github.io/post/ji-yu-nrwlnx-de-gong-zuo-qu-zhong-lib-zhong-ru-he-yin-yong-environmentts-chai-yi-hua-pei-zhi/</id>
@@ -1927,105 +2070,6 @@ Expires是上古时代Http1.0的东西了，现在默认浏览器均默认使用
 </code></pre>
 <p>参数通过统一下单接口拿到，paySign 采用统一的微信支付 Sign 签名生成方法，注意这里 appId 也要参与签名，appId 与 config 中传入的 appId 一致，即最后参与签名的参数有appId, timeStamp, nonceStr, package, signType。</p>
 <p><a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html">JS-SDK使用文档</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Superset新增图表类型]]></title>
-        <id>https://fanguyun214.github.io/post/superset-xin-zeng-tu-biao-lei-xing/</id>
-        <link href="https://fanguyun214.github.io/post/superset-xin-zeng-tu-biao-lei-xing/">
-        </link>
-        <updated>2019-09-18T02:17:17.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="前端版本028">前端(版本0.28)</h2>
-<h3 id="1新增图表文件">1.新增图表文件</h3>
-<p>目录： superset/assets/src/visualizations 如新增EchartRader目录（后面目录和KEY值保持统一）<br>
-<img src="https://fanguyun214.github.io/post-images/1600482189915.png" alt="" loading="lazy"><br>
-images下提供一张正方形示例图</p>
-<h3 id="2配置查询项">2.配置查询项</h3>
-<p>目录：<code>superset/assets/src/explore/controlPanels</code></p>
-<p>新增echartrader.js配置文件</p>
-<pre><code>import { t } from '@superset-ui/translation';
-
-export default {
-    label: t('echarts_radar'),
-    showOnExplore: true,
-    controlPanelSections: [{
-        label: t('Query'),
-        expanded: true,
-        //主要是下面的部分，可以找superset原有的图表模板，通过查看sql的方式看看每个配件都是做什么的
-        controlSetRows: [
-            ['metrics'],
-            ['columns'],
-            ['adhoc_filters'],
-        ]
-    }]
-}
-</code></pre>
-<p>在index.js中引入新增文件并关联</p>
-<h3 id="3注册新增图表项">3.注册新增图表项</h3>
-<p>目录 <code>superset/assets/src/visualizations/presets</code></p>
-<p>编辑LegacyChartPreset.js,映入图表并注册</p>
-<pre><code>import EchartRader from '../EchartRader/EchartRaderPlugin';
-    
-export default class LegacyChartPreset extends Preset {
-    constructor() {
-        super({
-            name: 'Legacy charts',
-            presets: [
-                new CommonChartPreset(),
-                new DeckGLChartPreset(),
-                new HierarchyChartPreset(),
-                new MapChartPreset(),
-            ],
-            plugins: [
-                new BulletChartPlugin().configure({ key: 'bullet' }),
-                new CalendarChartPlugin().configure({ key: 'cal_heatmap' }),
-                new ChordChartPlugin().configure({ key: 'chord' }),
-                new CompareChartPlugin().configure({ key: 'compare' }),
-                new DualLineChartPlugin().configure({ key: 'dual_line' }),
-                new EventFlowChartPlugin().configure({ key: 'event_flow' }),
-                new ForceDirectedChartPlugin().configure({ key: 'directed_force' }),
-                new HeatmapChartPlugin().configure({ key: 'heatmap' }),
-                new HorizonChartPlugin().configure({ key: 'horizon' }),
-                new LineMultiChartPlugin().configure({ key: 'line_multi' }),
-                new PairedTTestChartPlugin().configure({ key: 'paired_ttest' }),
-                new ParallelCoordinatesChartPlugin().configure({ key: 'para' }),
-                new RoseChartPlugin().configure({ key: 'rose' }),
-                new SankeyChartPlugin().configure({ key: 'sankey' }),
-                new TimePivotChartPlugin().configure({ key: 'time_pivot' }),
-                new EchartRader().configure({ key: 'echart_rader' }),
-            ],
-        });
-    }
-}
-
-</code></pre>
-<h2 id="后端">后端</h2>
-<p>新增处理数据接口</p>
-<p>目录 <code>/Users/fan/incubator-superset/superset/viz.py</code></p>
-<pre><code>class echartsRadar(BaseViz):
-    
-    &quot;&quot;&quot; echarts radar viz &quot;&quot;&quot;
-
-    viz_type = 'echart_rader' # 对应前端名字
-    verbose_name = _('echart_rader')
-    is_timeseries = False
-
-    def get_data(self, df):
-        data = self.handle_js_int_overflow(
-            dict(
-                records=df.to_dict(orient='records'),
-                columns=list(df.columns),
-            ))
-        columns_pre = [data['records'][i][data['columns'][0]] for i in range(len(data['records']))]
-        max_num = np.max([data['records'][i][data['columns'][1]] for i in range(len(data['records']))])
-        columns = [{'name': columns_pre[i],
-                    'max':str(max_num)}for i in range(len(columns_pre))]
-        out_data = [
-            {'value': [data['records'][i][data['columns'][j+1]] for i in range(len(data['records']))],
-             'name':data['columns'][j+1]}for j in range(len(data['columns'])-1)
-        ]
-        return [{'indicator' : columns, 'data' : out_data}]
-</code></pre>
 ]]></content>
     </entry>
 </feed>
