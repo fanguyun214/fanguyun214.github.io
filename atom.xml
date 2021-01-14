@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fanguyun214.github.io</id>
-    <title>Jason凡 Blog</title>
-    <updated>2021-01-14T07:14:58.335Z</updated>
+    <title>Jasonfan Blog</title>
+    <updated>2021-01-14T07:16:40.868Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fanguyun214.github.io"/>
     <link rel="self" href="https://fanguyun214.github.io/atom.xml"/>
     <subtitle>每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱</subtitle>
     <logo>https://fanguyun214.github.io/images/avatar.png</logo>
     <icon>https://fanguyun214.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Jason凡 Blog</rights>
+    <rights>All rights reserved 2021, Jasonfan Blog</rights>
     <entry>
         <title type="html"><![CDATA[Docker&k8s入门]]></title>
         <id>https://fanguyun214.github.io/post/dockerandk8s-ru-men/</id>
