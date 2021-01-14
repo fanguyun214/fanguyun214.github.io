@@ -2,115 +2,143 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>前端性能优化指南 | Jason凡 Blog</title>
+<title>Jason凡 Blog</title>
 <meta name="description" content="🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱" />
-<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1608116221506">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://fanguyun214.github.io/favicon.ico?v=1610608128208">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
 <link rel="stylesheet" href="https://fanguyun214.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144114666-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-144114666-1');
-</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://fanguyun214.github.io">
-  <img class="avatar" src="https://fanguyun214.github.io/images/avatar.png?v=1608116221506" alt="">
-  </a>
-  <h1 class="site-title">
-    Jason凡 Blog
-  </h1>
-  <p class="site-description">
-    🌱🌱🌱 每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱
-  </p>
-  <div class="menu-container">
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://fanguyun214.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://fanguyun214.github.io/images/avatar.png?v=1610608128208" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Jason凡 Blog</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E7%9B%AE%E7%9A%84">目的</a></li>
+<li><a href="#%E5%8E%9F%E5%88%99">原则</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F">如何衡量</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0%E9%9B%85%E8%99%8E%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%9635%E6%9D%A1">基本概述（雅虎前端优化35条）</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
+<li><a href="#cookie">Cookie</a></li>
+<li><a href="#css">CSS</a></li>
+<li><a href="#javascript">Javascript</a></li>
+<li><a href="#%E5%9B%BE%E7%89%87">图片</a></li>
+<li><a href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF">移动端</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%A7%E8%83%BD%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E7%9B%91%E6%8E%A7">性能数据采集/监控</a>
+<ul>
+<li><a href="#w3c-navigation-timing-api%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">W3C Navigation Timing API的性能指标</a>
+<ul>
+<li><a href="#%E6%8C%87%E6%A0%87%E8%A7%A3%E8%AF%BB">指标解读:</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">关键性能指标</a></li>
+<li><a href="#%E5%8C%BA%E9%97%B4%E6%AE%B5%E8%80%97%E6%97%B6">区间段耗时</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E7%82%B9">注意点</a></li>
+</ul>
+</li>
+<li><a href="#spa%E6%A8%A1%E5%BC%8F">SPA模式</a>
+<ul>
+<li><a href="#%E5%85%B3%E6%B3%A8%E7%82%B9">关注点</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87">关键指标</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96-fpfcp">优化 FP/FCP</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96-fmptti">优化 FMP/TTI</a></li>
+<li><a href="#%E9%81%BF%E5%85%8D%E5%87%BA%E7%8E%B0%E8%80%97%E6%97%B6%E8%BE%83%E9%95%BF%E7%9A%84%E4%BB%BB%E5%8A%A1">避免出现耗时较长的任务</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%8A%E6%8A%A5">数据上报</a>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E7%9A%84img%E6%A0%87%E7%AD%BEget%E8%AF%B7%E6%B1%82">使用的img标签get请求</a></li>
+<li><a href="#navigatorsendbeacon">navigator.sendBeacon</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
     
       
-        <a href="/" class="menu">
+        <a href="/" class="menu" style="animation-delay: 0s">
           首页
         </a>
       
     
       
-        <a href="/archives" class="menu">
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
           归档
         </a>
       
     
       
-        <a href="/tags" class="menu">
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
           标签
         </a>
       
     
       
-        <a href="/post/about" class="menu">
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
           关于
         </a>
       
     
   </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/fanguyun214" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-        <a href="https://twitter.com/home" target="_blank">
-          <i class="fab fa-twitter"></i>
-        </a>
-      
-    
-      
-        <a href="https://weibo.com/3307571020/profile" target="_blank">
-          <i class="fab fa-weibo"></i>
-        </a>
-      
-    
-      
-    
-      
-    
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by Jasonfan & Grider  🖥</div>
+    <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              前端性能优化指南
-            </h2>
-            <div class="post-info">
-              <span>
-                2020-07-24
-              </span>
-              <span>
-                15 min read
-              </span>
-              
-            </div>
-            
-              <img class="post-feature-image" src="https://fanguyun214.github.io/post-images/qian-duan-xing-neng-you-hua-zhi-nan.png" alt="">
-            
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <p>性能优化一直以来都是前端工程领域中的一个重要部分。网站应用的性能（加载速度、交互流畅度）优化对于提高用户留存、转化率等都有积极影响。可以理解为，提升你的网站性能，就是提升你的业务数据（甚至是业务收入）。</p>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">前端性能优化指南</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-07-24 / 15 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://fanguyun214.github.io/post-images/qian-duan-xing-neng-you-hua-zhi-nan.png" alt="">
+        
+        <div class="post-content yue">
+          <p>性能优化一直以来都是前端工程领域中的一个重要部分。网站应用的性能（加载速度、交互流畅度）优化对于提高用户留存、转化率等都有积极影响。可以理解为，提升你的网站性能，就是提升你的业务数据（甚至是业务收入）。</p>
 <!-- more -->
 <p>性能优化广义上会包含前端优化和后端优化。后端优化的关注点更多的时候是在增加资源利用率、降低资源成本以及提高稳定性上。相较于后端，前端的性能优化会更直接与用户的体验挂钩。从用户体验侧来说，前端服务 5s 的加载时间优化缩减 80%(1s) 与后端服务 50ms 的响应优化缩减 80%(10ms) 相比，用户的体验提升会更大。因此很多时候，与体验相关的性能的瓶颈会出现在前端。</p>
 <h3 id="目的">目的</h3>
@@ -563,76 +591,34 @@ function logData() {
 </li>
 </ul>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E7%9B%AE%E7%9A%84">目的</a></li>
-<li><a href="#%E5%8E%9F%E5%88%99">原则</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E8%A1%A1%E9%87%8F">如何衡量</a></li>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0%E9%9B%85%E8%99%8E%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%9635%E6%9D%A1">基本概述（雅虎前端优化35条）</a>
-<ul>
-<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
-<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
-<li><a href="#cookie">Cookie</a></li>
-<li><a href="#css">CSS</a></li>
-<li><a href="#javascript">Javascript</a></li>
-<li><a href="#%E5%9B%BE%E7%89%87">图片</a></li>
-<li><a href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF">移动端</a></li>
-</ul>
-</li>
-<li><a href="#%E6%80%A7%E8%83%BD%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E7%9B%91%E6%8E%A7">性能数据采集/监控</a>
-<ul>
-<li><a href="#w3c-navigation-timing-api%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">W3C Navigation Timing API的性能指标</a>
-<ul>
-<li><a href="#%E6%8C%87%E6%A0%87%E8%A7%A3%E8%AF%BB">指标解读:</a></li>
-<li><a href="#%E5%85%B3%E9%94%AE%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87">关键性能指标</a></li>
-<li><a href="#%E5%8C%BA%E9%97%B4%E6%AE%B5%E8%80%97%E6%97%B6">区间段耗时</a></li>
-<li><a href="#%E6%B3%A8%E6%84%8F%E7%82%B9">注意点</a></li>
-</ul>
-</li>
-<li><a href="#spa%E6%A8%A1%E5%BC%8F">SPA模式</a>
-<ul>
-<li><a href="#%E5%85%B3%E6%B3%A8%E7%82%B9">关注点</a></li>
-<li><a href="#%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87">关键指标</a></li>
-<li><a href="#%E4%BC%98%E5%8C%96-fpfcp">优化 FP/FCP</a></li>
-<li><a href="#%E4%BC%98%E5%8C%96-fmptti">优化 FMP/TTI</a></li>
-<li><a href="#%E9%81%BF%E5%85%8D%E5%87%BA%E7%8E%B0%E8%80%97%E6%97%B6%E8%BE%83%E9%95%BF%E7%9A%84%E4%BB%BB%E5%8A%A1">避免出现耗时较长的任务</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E4%B8%8A%E6%8A%A5">数据上报</a>
-<ul>
-<li><a href="#%E4%BD%BF%E7%94%A8%E7%9A%84img%E6%A0%87%E7%AD%BEget%E8%AF%B7%E6%B1%82">使用的img标签get请求</a></li>
-<li><a href="#navigatorsendbeacon">navigator.sendBeacon</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://fanguyun214.github.io/post/ngrx-shi-yong/">
-              <h3 class="post-title">
-                NgRx使用
-              </h3>
-            </a>
-          </div>
-        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://fanguyun214.github.io/post/docz-ji-lu-ni-de-dong-xi-cong-wei-ru-ci-jian-dan/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  docz-记录你的东西从未如此简单
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://fanguyun214.github.io/post/ngrx-shi-yong/">
+                <h3 class="post-title">
+                  NgRx使用
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
 
         
           
@@ -662,54 +648,106 @@ function logData() {
           
         
 
-        <div class="site-footer">
-  Powered by Jasonfan & Grider  🖥 | 
-  <a class="rss" href="https://fanguyun214.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
-
-</script>
-
       </div>
     </div>
+
+    <script src="https://fanguyun214.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
   </body>
 </html>
