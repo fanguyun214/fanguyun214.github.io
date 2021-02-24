@@ -2,11 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fanguyun214.github.io</id>
     <title>Jasonfan Blog</title>
-    <updated>2021-02-24T03:07:38.895Z</updated>
+    <updated>2021-02-24T03:43:50.190Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fanguyun214.github.io"/>
     <link rel="self" href="https://fanguyun214.github.io/atom.xml"/>
-    <subtitle>每个人的生活都是一条通向自身的道路，找到自我，在心中坚守一生，全心全意，永不停息 🌱🌱🌱</subtitle>
+    <subtitle>⌨️ 格物、致知、诚意  🎉&lt;br/&gt;
+⌨️ 正心、修身、齐家  🎉</subtitle>
     <logo>https://fanguyun214.github.io/images/avatar.png</logo>
     <icon>https://fanguyun214.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Jasonfan Blog</rights>
